@@ -1,0 +1,21 @@
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDEs and editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# User Uploaded Media / Documents (keep directories but ignore files)
+# /uploads/**/*
+# !/uploads/**/.gitkeep
