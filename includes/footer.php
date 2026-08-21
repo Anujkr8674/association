@@ -287,6 +287,7 @@
                     <h4 class="footer-title">Quick Links</h4>
                     <ul class="footer-links">
                         <li><a href="index.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Home</a></li>
+                         <li><a href="durga_puja.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Durga Puja</a></li>
                         <li><a href="about.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> About Us</a></li>
                         <li><a href="committee.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Committee</a></li>
                         <li><a href="members.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Members</a></li>
@@ -300,8 +301,7 @@
                 <div class="footer-column">
                     <h4 class="footer-title">Explore</h4>
                     <ul class="footer-links">
-                        <li><a href="announcements.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Durga Puja Background</a></li>
-                        <li><a href="notice.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Notices</a></li>
+                        <li><a href="announcements.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Announcements</a></li>
                         <li><a href="partners.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Partners & Sponsors</a></li>
                         <li><a href="gallery.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Media Gallery</a></li>
                         <li><a href="blogs.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Blog Posts</a></li>
