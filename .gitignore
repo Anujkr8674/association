@@ -1,6 +1,6 @@
 # Logs
 *.log
- 
+
 .env
 # OS generated files
 .DS_Store

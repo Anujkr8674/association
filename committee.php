@@ -665,7 +665,7 @@ try {
     <div class="container">
         <div class="section-header">
             <h2>Processes & Compliance</h2>
-            <p class="section-subtitle">Review election processes, general body meeting guidelines, and constitution bylaws.</p>
+            <p class="section-subtitle">For the convenience please click the attached Tab for viewing the detailed “Work Flow Chart for BCA Activities”. Few of the Sub Processes have been included in the Website under various Heads which include Membership Enrolment, Registration – Authorization. Some of the Work Instructions and Formats are also built in the Website at appropriate locations, which include the “Feedback Form”, Membership Enrolment Form, Registration – Authorization Form etc.</p>
             <div class="alpona-divider">
                 <svg viewBox="0 0 24 24"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 3c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5zm0 2c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
             </div>
