@@ -189,30 +189,36 @@ include 'includes/header.php';
 <section class="enroll-sec">
     <div class="enroll-container">
         <div class="enroll-content">
-            <h2>Association Membership Guidelines</h2>
-            <p>Welcome to the Bengali Cultural Association. We are a vibrant community dedicated to celebrating, preserving, and sharing the rich cultural heritage, traditions, and literature of Bengal. By enrolling as a registered member, you gain voting rights in administrative elections, invitations to all official cultural celebrations, and access to our member network and community support programs.</p>
+            <h2>Membership Procedure</h2>
+            <p><strong>Membership Procedure:</strong> Noida, Sector 62 is a large mini town and several people live here permanently while many others are temporary or transient. Bengali Cultural Association (BCA) is a thirteen year old organization and already has more than two hundred members. A member is a representative of one family. Many Bengali families coming from outside do not find easy acquaintance with the community nor they know the process of connecting with each other. Remaining socially detached often is a cause of pain and cultural isolation and therefore, this segment has been created in the website.</p>
+
+            <p>The website is a great medium to find how and what of the process but how one knows that BCA exists and there is a website! Most often the new entries come to light during the Puja fund collection drives only. However, our endeavor now will be to communicate to all societies and other institutes including our existing members residing in them or nearby societies, to communicate to the new entrants about the BCA and help them become members. Of course, temporary residents hesitate to join BCA and here the website shall provide assistance and guidance. All the festivals like Durga Puja, Lakshmi Puja, Kali Puja and Saraswati Puja are very close to the Bengali community and everybody look forward to join and celebrate with their family members. Circumstances permitting other cultural events are also organized by the Association.</p>
 
             <div class="alpona-divider">
                 <svg viewBox="0 0 24 24"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 3c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5zm0 2c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
             </div>
 
-            <h3>Types of Membership</h3>
-            <p>Our association offers three distinct membership models tailored to different levels of support and commitment:</p>
-            <ul>
-                <li><strong>Patron Membership:</strong> Designed for prominent community members wishing to provide strong long-term mentorship and support. Benefits include lifetime administrative privileges and front-row reservations during major annual festivals.</li>
-                <li><strong>Life Membership:</strong> A one-time subscription contribution that secures lifetime voting rights and participation in all core committees and general body meetings.</li>
-                <li><strong>General Membership:</strong> An annual subscription-based model ideal for active families and individuals. Requires yearly renewals to maintain voting rights and register for cultural performances.</li>
-            </ul>
+            <p>The enrolment gives us the data of the community population, their capabilities, skills etc. which can be utilized during our various celebrations. We have become a ‘brand’ now in Sector 62 as no other festival as large as this happens here. We often cross many families in the market places, and common areas of Sector 62 and can always communicate to them regarding our existence and introduce them to the website. The onus of making new members is upon the existing members only. However, it is likely that one knows about the website and can always contact any other member to understand the process or even browse through the website to understand the process by him.</p>
 
-            <h3>Eligibility & Procedure</h3>
-            <p>To successfully register as a member, please follow these guidelines:</p>
+            <p>Members are the lifeline of the Association and new ideas originate only when new and fresh brains amalgamate. The Association directly and indirectly provides a platform for a united community and lots of interaction. People coming from various parts of the country may share their views and thoughts to enrich the Association and make it a true social organization.</p>
+
+            <h3>Steps for Enrolment as a New Member in BCA</h3>
+            <p>Please follow the following steps for enrolment as a new member in BCA:</p>
             <ol>
-                <li>You must be at least 18 years of age at the time of submitting the application.</li>
-                <li>The membership application must be sponsored or recommended by at least one existing active member of the association.</li>
-                <li>Download the official <strong>Enrollment Form</strong> using the action button below.</li>
-                <li>Fill out all required details in the form, attach a passport-sized photograph, and sign the declaration.</li>
-                <li>Submit the completed physical copy to the Executive Committee Office along with the applicable membership subscription fee.</li>
+                <li>There is a <strong>“Membership Enrolment”</strong> Form provided for your assistance. The Form is designed to capture as much cultural details as possible and applicants are requested to expose their Skills & Potential along with their children’s interests and cultural capabilities.</li>
+                <li>The Form is designed as <strong>‘Word Document’</strong> and can be copied and saved in your own personal folders. You can fill up the word document mostly through the Electronic media. You can expand and reduce the blank spaces.</li>
+                <li>Having filled the document electronically, you have to obtain validation from at least two existing members with their details and signature. Also you have to sign the document. Therefore, you have to get the document printed and signed off from all parties mentioned above.</li>
+                <li>You have to scan the document and post it to the Administrator under the Head <strong>“Member’s Records”</strong>.</li>
+                <li>Administrator will verify the document and ‘Submit’ it into the Portal for viewing to all and your name will be uploaded as member in the list.</li>
+                <li>Simultaneously, you have to hand over the hard copy of the Registration Form to the Administrator for records.</li>
+                <li>Any new membership fees etc. shall be notified from time to time through the <strong>‘News Corner’</strong> of the website. Willing applicants are requested to keep visiting the website. Efforts will be made to communicate the information through SMS or E Mail as well, in due course.</li>
             </ol>
+
+            <div class="alpona-divider">
+                <svg viewBox="0 0 24 24"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 3c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5zm0 2c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </div>
+
+            <p>The Association wishes to have high ethical standards and behavior amongst the community as well as outside, in line with rich culture of Bengalis historically. Your membership will be valuable for the Association and give strength to the continual evolution of the Association in bringing more variety and uniqueness to the events.</p>
 
             <div class="enroll-cta-box">
                 <p>Click below to open the registration form. You can print, fill, and submit it directly to our office.</p>
