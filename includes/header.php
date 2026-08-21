@@ -702,8 +702,11 @@ $is_home = ($current_page == 'index.php' || $current_page == '' || $current_page
                 <div class="nav-item">
                     <a href="members.php" class="nav-link <?php echo ($current_page == 'members.php') ? 'active' : ''; ?>">Member <i class="fa-solid fa-chevron-down"></i></a>
                     <div class="dropdown-menu">
-                        <a href="join-us.php" class="dropdown-link">Join Us</a>
+                       
                         <a href="members.php" class="dropdown-link">Current Members</a>
+                         <a href="enrollment.php" class="dropdown-link">Enrollment</a>
+                         <!-- <a href="feedback.php" class="dropdown-link">Feedback</a> -->
+                         <!-- <a href="registration_procedure.php" class="dropdown-link">Registration & Authorization</a> -->
                     </div>
                 </div>
 
@@ -716,12 +719,13 @@ $is_home = ($current_page == 'index.php' || $current_page == '' || $current_page
                 </div>
 
                 <div class="nav-item">
-                    <a href="#" class="nav-link <?php echo in_array($current_page, ['partners.php', 'gallery.php', 'blogs.php']) ? 'active' : ''; ?>">More <i class="fa-solid fa-chevron-down"></i></a>
+                    <a href="#" class="nav-link <?php echo in_array($current_page, ['partners.php', 'gallery.php', 'blogs.php', 'documents.php']) ? 'active' : ''; ?>">More <i class="fa-solid fa-chevron-down"></i></a>
                     <div class="dropdown-menu">
                         <a href="partners.php" class="dropdown-link">Partners</a>
-                         <a href="activities.php" class="dropdown-link">Activities</a>
+                        <a href="activities.php" class="dropdown-link">Activities</a>
                         <a href="gallery.php" class="dropdown-link">Gallery</a>
                         <a href="blogs.php" class="dropdown-link">Blogs</a>
+                        <a href="documents.php" class="dropdown-link">Documents</a>
                     </div>
                 </div>
 
@@ -806,6 +810,7 @@ $is_home = ($current_page == 'index.php' || $current_page == '' || $current_page
                     <li><a href="partners.php" class="mobile-dropdown-link">Partners</a></li>
                     <li><a href="gallery.php" class="mobile-dropdown-link">Gallery</a></li>
                     <li><a href="blogs.php" class="mobile-dropdown-link">Blogs</a></li>
+                    <li><a href="documents.php" class="mobile-dropdown-link">Documents</a></li>
                 </ul>
             </li>
 

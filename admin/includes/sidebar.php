@@ -1082,6 +1082,64 @@ $page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
                         </li>
                     </ul>
                 </li>
+                <li>
+                    <a href="javascript:void(0)" class="menu-link menu-dropdown-toggle <?php echo (strpos($current_page, 'partners_') !== false) ? 'active open' : ''; ?>" id="partners-dropdown-toggle">
+                        <div style="display: flex; align-items: center; gap: 0.85rem;">
+                            <i class="fa-solid fa-handshake"></i>
+                            <span>Partners</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </a>
+                    <ul class="sidebar-menu-dropdown <?php echo (strpos($current_page, 'partners_') !== false) ? 'show' : ''; ?>" id="partners-dropdown-menu">
+                        <li>
+                            <a href="partners_sponsors.php" class="menu-link <?php echo $current_page === 'partners_sponsors.php' ? 'active' : ''; ?>" style="padding-left: 2.2rem; font-size: 0.85rem; opacity: 0.9;">
+                                <i class="fa-solid fa-file-pdf" style="font-size: 0.75rem;"></i>
+                                <span>Sponsors</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="partners_patrons.php" class="menu-link <?php echo $current_page === 'partners_patrons.php' ? 'active' : ''; ?>" style="padding-left: 2.2rem; font-size: 0.85rem; opacity: 0.9;">
+                                <i class="fa-solid fa-file-pdf" style="font-size: 0.75rem;"></i>
+                                <span>Patrons</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="partners_authorities.php" class="menu-link <?php echo $current_page === 'partners_authorities.php' ? 'active' : ''; ?>" style="padding-left: 2.2rem; font-size: 0.85rem; opacity: 0.9;">
+                                <i class="fa-solid fa-file-pdf" style="font-size: 0.75rem;"></i>
+                                <span>Authorities</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" class="menu-link menu-dropdown-toggle <?php echo (strpos($current_page, 'documents_') !== false) ? 'active open' : ''; ?>" id="documents-dropdown-toggle">
+                        <div style="display: flex; align-items: center; gap: 0.85rem;">
+                            <i class="fa-solid fa-folder-open"></i>
+                            <span>Documents</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </a>
+                    <ul class="sidebar-menu-dropdown <?php echo (strpos($current_page, 'documents_') !== false) ? 'show' : ''; ?>" id="documents-dropdown-menu">
+                        <li>
+                            <a href="documents_souvenir.php" class="menu-link <?php echo $current_page === 'documents_souvenir.php' ? 'active' : ''; ?>" style="padding-left: 2.2rem; font-size: 0.85rem; opacity: 0.9;">
+                                <i class="fa-solid fa-file-pdf" style="font-size: 0.75rem;"></i>
+                                <span>Souvenir</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="documents_competitions.php" class="menu-link <?php echo $current_page === 'documents_competitions.php' ? 'active' : ''; ?>" style="padding-left: 2.2rem; font-size: 0.85rem; opacity: 0.9;">
+                                <i class="fa-solid fa-file-pdf" style="font-size: 0.75rem;"></i>
+                                <span>Competitions & Winners</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="documents_recognition.php" class="menu-link <?php echo $current_page === 'documents_recognition.php' ? 'active' : ''; ?>" style="padding-left: 2.2rem; font-size: 0.85rem; opacity: 0.9;">
+                                <i class="fa-solid fa-file-pdf" style="font-size: 0.75rem;"></i>
+                                <span>Recognition</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
 
             <div class="sidebar-footer">

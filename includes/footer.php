@@ -290,7 +290,8 @@
                         <li><a href="about.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> About Us</a></li>
                         <li><a href="committee.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Committee</a></li>
                         <li><a href="members.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Members</a></li>
-                        <li><a href="index.php#events" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Events</a></li>
+                        <li><a href="registration_procedure.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Registration</a></li>
+                        <li><a href="feedback.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Feedback</a></li>
                     </ul>
                 </div>
 
@@ -302,7 +303,9 @@
                         <li><a href="partners.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Partners & Sponsors</a></li>
                         <li><a href="gallery.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Media Gallery</a></li>
                         <li><a href="blogs.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Blog Posts</a></li>
+                        <li><a href="documents.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Association Documents</a></li>
                         <li><a href="contact.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Contact Us</a></li>
+                         <li><a href="disclaimer.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Disclaimer</a></li>
                     </ul>
                 </div>
 

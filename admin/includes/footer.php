@@ -37,6 +37,26 @@
                 membMenu.classList.toggle('show');
             });
         }
+
+        // Partners Dropdown Toggle
+        const partToggle = document.getElementById('partners-dropdown-toggle');
+        const partMenu = document.getElementById('partners-dropdown-menu');
+        if (partToggle && partMenu) {
+            partToggle.addEventListener('click', function() {
+                this.classList.toggle('open');
+                partMenu.classList.toggle('show');
+            });
+        }
+
+        // Documents Dropdown Toggle
+        const docsToggle = document.getElementById('documents-dropdown-toggle');
+        const docsMenu = document.getElementById('documents-dropdown-menu');
+        if (docsToggle && docsMenu) {
+            docsToggle.addEventListener('click', function() {
+                this.classList.toggle('open');
+                docsMenu.classList.toggle('show');
+            });
+        }
     });
     </script>
 </body>

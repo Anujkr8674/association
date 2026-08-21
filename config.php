@@ -419,6 +419,26 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS `member_documents` (
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB");
 
+// 14. Create partner_documents table
+$pdo->exec("CREATE TABLE IF NOT EXISTS `partner_documents` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `title` VARCHAR(255) NOT NULL,
+    `year` VARCHAR(100) NOT NULL,
+    `pdf_path` VARCHAR(255) NOT NULL,
+    `doc_type` VARCHAR(50) NOT NULL, -- 'sponsor', 'patron', 'authority'
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB");
+
+// 15. Create association_documents table
+$pdo->exec("CREATE TABLE IF NOT EXISTS `association_documents` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `title` VARCHAR(255) NOT NULL,
+    `year` VARCHAR(100) NOT NULL,
+    `pdf_path` VARCHAR(255) NOT NULL,
+    `doc_type` VARCHAR(50) NOT NULL, -- 'souvenir', 'competition', 'recognition'
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB");
+
 // 7. Seed Admin User if not exists
 $admin_user = isset($_ENV['ADMIN_USER']) ? $_ENV['ADMIN_USER'] : 'Admin';
 $admin_pass = isset($_ENV['ADMIN_PASS']) ? $_ENV['ADMIN_PASS'] : 'Admin#0000';

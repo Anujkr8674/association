@@ -54,7 +54,7 @@ include 'includes/header.php';
     }
 
     .enroll-container {
-        max-width: 800px;
+        max-width: 900px;
         margin: 0 auto;
         padding: 0 1.5rem;
     }
@@ -74,6 +74,7 @@ include 'includes/header.php';
         margin-bottom: 1.5rem;
         border-bottom: 2px solid var(--border-color);
         padding-bottom: 0.8rem;
+        text-align: center;
     }
 
     .enroll-content h3 {
@@ -89,6 +90,7 @@ include 'includes/header.php';
         line-height: 1.8;
         color: var(--dark);
         margin-bottom: 1.5rem;
+        text-align: justify;
     }
 
     .enroll-content ul, .enroll-content ol {
@@ -120,6 +122,9 @@ include 'includes/header.php';
         gap: 0.8rem;
         background-color: var(--red);
         color: var(--white) !important;
+        
+        background-color: var(--white);
+        color: var(--red) !important;
         font-weight: 700;
         text-transform: uppercase;
         font-size: 1rem;
@@ -127,14 +132,15 @@ include 'includes/header.php';
         padding: 1.2rem 2.5rem;
         border-radius: 30px;
         text-decoration: none;
-        box-shadow: 0 4px 15px rgba(212, 63, 58, 0.25);
+        /* box-shadow: 0 4px 15px rgba(212, 63, 58, 0.25); */
         transition: var(--transition);
-        border: 2px solid transparent;
+        border: 2px solid #8B1E1E;
     }
 
     .enroll-btn:hover {
-        background-color: var(--white);
-        color: var(--red) !important;
+    
+        background-color: var(--red);
+        color: var(--white) !important;
         border-color: var(--red);
         box-shadow: 0 6px 20px rgba(212, 63, 58, 0.35);
         transform: translateY(-2px);
