@@ -715,7 +715,7 @@ $is_home = ($current_page == 'index.php' || $current_page == '' || $current_page
                 </div> -->
 
                 <div class="nav-item">
-                    <a href="announcements.php" class="nav-link <?php echo ($current_page == 'announcements.php') ? 'active' : ''; ?>">Announcements</a>
+                    <a href="notice.php" class="nav-link <?php echo ($current_page == 'notice.php') ? 'active' : ''; ?>">Notice</a>
                 </div>
 
                 <div class="nav-item">
@@ -799,7 +799,7 @@ $is_home = ($current_page == 'index.php' || $current_page == '' || $current_page
             </li>
 
             <li class="mobile-item">
-                <a href="announcements.php" class="mobile-link <?php echo ($current_page == 'announcements.php') ? 'active' : ''; ?>">Announcements</a>
+                <a href="notice.php" class="mobile-link <?php echo ($current_page == 'notice.php') ? 'active' : ''; ?>">Notice</a>
             </li>
 
             <li class="mobile-item">

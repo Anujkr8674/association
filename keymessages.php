@@ -33,7 +33,8 @@ try {
        KEY MESSAGES SPECIFIC STYLES
        ========================================================================== */
     .msg-banner {
-        background: linear-gradient(135deg, #1f2d3d 0%, #0d151f 100%);
+        /* background: linear-gradient(135deg, #1f2d3d 0%, #0d151f 100%); */
+            background: linear-gradient(135deg, var(--red) 0%, #581010 100%);
         color: var(--white);
         padding: 9rem 0 5rem 0;
         text-align: center;
@@ -201,6 +202,10 @@ try {
         font-weight: 600;
     }
 
+    #card   {
+        background-color: var(--white);
+    }
+
     .doc-link {
         color: var(--gray);
         font-size: 1.25rem;
@@ -287,7 +292,7 @@ try {
                 <div style="text-align: center; color: var(--gray); font-style: italic; padding: 2rem; width: 100%;">No Secretary messages uploaded yet.</div>
             <?php else: ?>
                 <?php foreach ($sec_samiti_docs as $doc): ?>
-                    <div class="doc-card">
+                    <div id="card" class="doc-card">
                         <div class="doc-icon-box">
                             <i class="fa-solid fa-address-card"></i>
                         </div>
@@ -355,7 +360,7 @@ try {
                 <div style="text-align: center; color: var(--gray); font-style: italic; padding: 2rem; width: 100%;">No President of India messages uploaded yet.</div>
             <?php else: ?>
                 <?php foreach ($pres_india_docs as $doc): ?>
-                    <div class="doc-card">
+                    <div id ="card" class="doc-card">
                         <div class="doc-icon-box">
                             <i class="fa-solid fa-flag"></i>
                         </div>
