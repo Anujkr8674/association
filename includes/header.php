@@ -719,13 +719,14 @@ $is_home = ($current_page == 'index.php' || $current_page == '' || $current_page
                 </div>
 
                 <div class="nav-item">
-                    <a href="#" class="nav-link <?php echo in_array($current_page, ['partners.php', 'gallery.php', 'blogs.php', 'documents.php']) ? 'active' : ''; ?>">More <i class="fa-solid fa-chevron-down"></i></a>
+                    <a href="#" class="nav-link <?php echo in_array($current_page, ['partners.php', 'gallery.php', 'blogs.php', 'documents.php', 'keymessages.php']) ? 'active' : ''; ?>">More <i class="fa-solid fa-chevron-down"></i></a>
                     <div class="dropdown-menu">
                         <a href="partners.php" class="dropdown-link">Partners</a>
                         <a href="activities.php" class="dropdown-link">Activities</a>
                         <a href="gallery.php" class="dropdown-link">Gallery</a>
                         <a href="blogs.php" class="dropdown-link">Blogs</a>
                         <a href="documents.php" class="dropdown-link">Documents</a>
+                        <a href="keymessages.php" class="dropdown-link">Key Messages</a>
                     </div>
                 </div>
 
@@ -811,6 +812,7 @@ $is_home = ($current_page == 'index.php' || $current_page == '' || $current_page
                     <li><a href="gallery.php" class="mobile-dropdown-link">Gallery</a></li>
                     <li><a href="blogs.php" class="mobile-dropdown-link">Blogs</a></li>
                     <li><a href="documents.php" class="mobile-dropdown-link">Documents</a></li>
+                    <li><a href="keymessages.php" class="mobile-dropdown-link">Key Messages</a></li>
                 </ul>
             </li>
 

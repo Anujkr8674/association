@@ -1140,6 +1140,41 @@ $page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
                         </li>
                     </ul>
                 </li>
+                <li>
+                    <a href="javascript:void(0)" class="menu-link menu-dropdown-toggle <?php echo (strpos($current_page, 'messages_') !== false) ? 'active open' : ''; ?>" id="messages-dropdown-toggle">
+                        <div style="display: flex; align-items: center; gap: 0.85rem;">
+                            <i class="fa-solid fa-message"></i>
+                            <span>Key Messages</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </a>
+                    <ul class="sidebar-menu-dropdown <?php echo (strpos($current_page, 'messages_') !== false) ? 'show' : ''; ?>" id="messages-dropdown-menu">
+                        <li>
+                            <a href="messages_president_samiti.php" class="menu-link <?php echo $current_page === 'messages_president_samiti.php' ? 'active' : ''; ?>" style="padding-left: 2.2rem; font-size: 0.85rem; opacity: 0.9;">
+                                <i class="fa-solid fa-file-pdf" style="font-size: 0.75rem;"></i>
+                                <span>President (Samiti)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="messages_secretary_samiti.php" class="menu-link <?php echo $current_page === 'messages_secretary_samiti.php' ? 'active' : ''; ?>" style="padding-left: 2.2rem; font-size: 0.85rem; opacity: 0.9;">
+                                <i class="fa-solid fa-file-pdf" style="font-size: 0.75rem;"></i>
+                                <span>Secretary (Samiti)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="messages_eminent.php" class="menu-link <?php echo $current_page === 'messages_eminent.php' ? 'active' : ''; ?>" style="padding-left: 2.2rem; font-size: 0.85rem; opacity: 0.9;">
+                                <i class="fa-solid fa-file-pdf" style="font-size: 0.75rem;"></i>
+                                <span>Eminent Personalities</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="messages_president_india.php" class="menu-link <?php echo $current_page === 'messages_president_india.php' ? 'active' : ''; ?>" style="padding-left: 2.2rem; font-size: 0.85rem; opacity: 0.9;">
+                                <i class="fa-solid fa-file-pdf" style="font-size: 0.75rem;"></i>
+                                <span>President of India</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
 
             <div class="sidebar-footer">

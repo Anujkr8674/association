@@ -57,6 +57,16 @@
                 docsMenu.classList.toggle('show');
             });
         }
+
+        // Key Messages Dropdown Toggle
+        const msgsToggle = document.getElementById('messages-dropdown-toggle');
+        const msgsMenu = document.getElementById('messages-dropdown-menu');
+        if (msgsToggle && msgsMenu) {
+            msgsToggle.addEventListener('click', function() {
+                this.classList.toggle('open');
+                msgsMenu.classList.toggle('show');
+            });
+        }
     });
     </script>
 </body>

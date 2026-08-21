@@ -1416,6 +1416,127 @@ switch ($act) {
             }
         }
         break;
+
+    case 'save_key_message':
+        $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+        $title = isset($_POST['title']) ? trim($_POST['title']) : '';
+        $year = isset($_POST['year']) ? trim($_POST['year']) : '';
+        $doc_type = isset($_POST['doc_type']) ? trim($_POST['doc_type']) : 'president_samiti';
+        
+        $upload_dir = __DIR__ . '/../uploads/key-message/';
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0777, true);
+        }
+
+        $db_path = '';
+        if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
+            $tmp_name = $_FILES['pdf_file']['tmp_name'];
+            $orig_name = basename($_FILES['pdf_file']['name']);
+            $ext = strtolower(pathinfo($orig_name, PATHINFO_EXTENSION));
+            $new_filename = uniqid('key_msg_', true) . '.' . $ext;
+            $dest = $upload_dir . $new_filename;
+            if (move_uploaded_file($tmp_name, $dest)) {
+                $db_path = 'uploads/key-message/' . $new_filename;
+                
+                // Delete old PDF
+                if ($id > 0) {
+                    $stmt = $pdo->prepare("SELECT `pdf_path` FROM `key_messages` WHERE `id` = ?");
+                    $stmt->execute([$id]);
+                    $old_pdf = $stmt->fetchColumn();
+                    if ($old_pdf && strpos($old_pdf, 'uploads/key-message/') === 0) {
+                        $old_file_path = __DIR__ . '/../' . $old_pdf;
+                        if (file_exists($old_file_path)) {
+                            @unlink($old_file_path);
+                        }
+                    }
+                }
+            }
+        }
+
+        try {
+            if ($id > 0) {
+                if (!empty($db_path)) {
+                    $stmt = $pdo->prepare("UPDATE `key_messages` SET `title` = ?, `year` = ?, `pdf_path` = ?, `doc_type` = ? WHERE `id` = ?");
+                    $stmt->execute([$title, $year, $db_path, $doc_type, $id]);
+                } else {
+                    $stmt = $pdo->prepare("UPDATE `key_messages` SET `title` = ?, `year` = ?, `doc_type` = ? WHERE `id` = ?");
+                    $stmt->execute([$title, $year, $doc_type, $id]);
+                }
+                $success_type = 'updated';
+            } else {
+                $stmt = $pdo->prepare("INSERT INTO `key_messages` (`title`, `year`, `pdf_path`, `doc_type`) VALUES (?, ?, ?, ?)");
+                $stmt->execute([$title, $year, $db_path, $doc_type]);
+                $success_type = 'created';
+            }
+
+            // Determine redirection page based on doc_type
+            $redirect_page = 'messages_president_samiti.php';
+            if ($doc_type === 'secretary_samiti') {
+                $redirect_page = 'messages_secretary_samiti.php';
+            } elseif ($doc_type === 'eminent') {
+                $redirect_page = 'messages_eminent.php';
+            } elseif ($doc_type === 'president_india') {
+                $redirect_page = 'messages_president_india.php';
+            }
+
+            if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
+                echo json_encode(['status' => 'success', 'message' => 'Document saved successfully', 'redirect' => $redirect_page]);
+                exit;
+            } else {
+                header('Location: ' . $redirect_page . '?success=' . $success_type);
+                exit;
+            }
+        } catch (PDOException $e) {
+            if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
+                echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+                exit;
+            } else {
+                die("Error saving document: " . $e->getMessage());
+            }
+        }
+        break;
+
+    case 'delete_key_message':
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        if ($id > 0) {
+            try {
+                // Delete PDF file first
+                $stmt = $pdo->prepare("SELECT `pdf_path`, `doc_type` FROM `key_messages` WHERE `id` = ?");
+                $stmt->execute([$id]);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                
+                if ($row) {
+                    $old_pdf = $row['pdf_path'];
+                    $doc_type = $row['doc_type'];
+                    
+                    if ($old_pdf && strpos($old_pdf, 'uploads/key-message/') === 0) {
+                        $old_file_path = __DIR__ . '/../' . $old_pdf;
+                        if (file_exists($old_file_path)) {
+                            @unlink($old_file_path);
+                        }
+                    }
+
+                    $stmt = $pdo->prepare("DELETE FROM `key_messages` WHERE `id` = ?");
+                    $stmt->execute([$id]);
+                    
+                    // Determine redirection page based on doc_type
+                    $redirect_page = 'messages_president_samiti.php';
+                    if ($doc_type === 'secretary_samiti') {
+                        $redirect_page = 'messages_secretary_samiti.php';
+                    } elseif ($doc_type === 'eminent') {
+                        $redirect_page = 'messages_eminent.php';
+                    } elseif ($doc_type === 'president_india') {
+                        $redirect_page = 'messages_president_india.php';
+                    }
+
+                    header('Location: ' . $redirect_page . '?success=deleted');
+                    exit;
+                }
+            } catch (PDOException $e) {
+                die("Error deleting document: " . $e->getMessage());
+            }
+        }
+        break;
 }
 
 header('Location: dashboard.php');

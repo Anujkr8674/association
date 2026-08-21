@@ -304,6 +304,7 @@
                         <li><a href="gallery.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Media Gallery</a></li>
                         <li><a href="blogs.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Blog Posts</a></li>
                         <li><a href="documents.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Association Documents</a></li>
+                        <li><a href="keymessages.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Key Messages</a></li>
                         <li><a href="contact.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Contact Us</a></li>
                          <li><a href="disclaimer.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Disclaimer</a></li>
                     </ul>
