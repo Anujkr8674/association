@@ -276,9 +276,9 @@
                     </p>
                     <span class="footer-social-title">Follow Our Journey</span>
                     <div class="footer-socials">
-                        <a href="https://facebook.com" target="_blank" class="social-link" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="https://instagram.com" target="_blank" class="social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="https://youtube.com" target="_blank" class="social-link" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://www.facebook.com/751142244749604?ref=PROFILE_EDIT_xav_ig_profile_page_web" target="_blank" class="social-link" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/bengaliculturalassociation?fbclid=IwY2xjawTquitwZG9mAWV4dG4DYWVtAjEwAGJyaWQRMW5tc1F5bFNqdVpLcUl4Q1hzcnRjBmFwcF9pZBAyMjIwMzkxNzg4MjAwODkyAAEezrhJPdLZ20sYnKRDYgZ7nqD_UBTPpNJdW3Ly4IW4HY-unuVGZ_EK4420kuY_aem_h6aOkqsi3_LhLY5oOyqw9g" target="_blank" class="social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/@bca.noida.62" target="_blank" class="social-link" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
                     </div>
                 </div>
 
@@ -319,26 +319,27 @@
                         <li class="footer-contact-item">
                             <i class="fa-solid fa-location-dot"></i>
                             <span class="footer-contact-text">
-                                22/A Rabindra Sarani, Cultural Zone,<br>
-                                Kolkata, West Bengal - 700001
+                                Khel Shakti Park, Block B,<br>
+                                Sector 62, Noida
                             </span>
                         </li>
                         <li class="footer-contact-item">
                             <i class="fa-solid fa-phone"></i>
                             <span class="footer-contact-text">
-                                <a href="tel:+919876543210">+91 98765 43210</a>
+                                <a href="tel:+919811639155">+91 98116 39155</a>, <br>
+                                <a href="tel:+917260818065">+91 72608 18065</a>
                             </span>
                         </li>
                         <li class="footer-contact-item">
                             <i class="fa-solid fa-envelope"></i>
                             <span class="footer-contact-text">
-                                <a href="mailto:info@bengalicultural.org">info@bengalicultural.org</a>
+                                <a href="mailto:bengaliculturalassociation2003@gmail.com">bengaliculturalassociation2003@gmail.com</a>
                             </span>
                         </li>
                         <li class="footer-contact-item">
                             <i class="fa-brands fa-whatsapp"></i>
                             <span class="footer-contact-text">
-                                <a href="https://wa.me/919876543210" target="_blank">+91 98765 43210</a>
+                                <a href="https://wa.me/919811639155" target="_blank">+91 98116 39155</a>
                             </span>
                         </li>
                     </ul>

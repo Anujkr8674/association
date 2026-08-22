@@ -415,7 +415,7 @@ include 'includes/header.php';
                         </div>
                         <div class="contact-info-text">
                             <h4>Physical Address</h4>
-                            <p>22/A Rabindra Sarani, Cultural Zone, Kolkata, West Bengal - 700001</p>
+                            <p>Khel Shakti Park, Block B, Sector 62, Noida</p>
                         </div>
                     </div>
 
@@ -426,7 +426,7 @@ include 'includes/header.php';
                         </div>
                         <div class="contact-info-text">
                             <h4>Phone / Hotline</h4>
-                            <p><a href="tel:+919876543210">+91 98765 43210</a> (Treasurer Office)</p>
+                            <p><a href="tel:+919811639155">+91 98116 39155</a>, <br><a href="tel:+917260818065">+91 72608 18065</a></p>
                         </div>
                     </div>
 
@@ -437,7 +437,7 @@ include 'includes/header.php';
                         </div>
                         <div class="contact-info-text">
                             <h4>General Inquiry</h4>
-                            <p><a href="mailto:info@bengalicultural.org">info@bengalicultural.org</a></p>
+                            <p><a href="mailto:bengaliculturalassociation2003@gmail.com">bengaliculturalassociation2003@gmail.com</a></p>
                         </div>
                     </div>
 
@@ -448,19 +448,15 @@ include 'includes/header.php';
                         </div>
                         <div class="contact-info-text">
                             <h4>WhatsApp Support</h4>
-                            <p><a href="https://wa.me/919876543210" target="_blank">+91 98765 43210</a> (Direct Secretary)</p>
+                            <p><a href="https://wa.me/919811639155" target="_blank">+91 98116 39155</a> (Direct Support)</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Google Maps Frame -->
-                <div class="map-wrapper">
-                    <!-- We embed a beautiful styled open google map centered on cultural zone -->
-                    <iframe class="map-frame" 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14736.289196561113!2d88.35123963493635!3d22.576395982833633!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a027656d77e49ab%3A0xe5a36371f49dc17a!2sRabindra%20Sarani%2C%20Kolkata%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1680000000000!5m2!1sen!2sin" 
-                            allowfullscreen="" 
-                            loading="lazy" 
-                            referrerpolicy="no-referrer-when-downgrade">
+                <!-- Map embed -->
+                <div class="contact-map-container" style="border: 1px solid var(--border-color); border-radius: var(--border-radius); overflow: hidden; height: 320px; box-shadow: var(--shadow-sm);">
+                    <iframe src="https://maps.google.com/maps?q=Khel%20Shakti%20Park%2C%20Block%20B%2C%20Sector%2062%2C%20Noida&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>
             </div>
