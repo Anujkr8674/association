@@ -233,7 +233,7 @@ include 'includes/header.php';
 
     .steps-grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 2rem;
         margin-top: 3rem;
     }
@@ -246,6 +246,13 @@ include 'includes/header.php';
         text-align: center;
         box-shadow: var(--shadow-sm);
         position: relative;
+        transition: var(--transition);
+    }
+
+    .step-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--red);
     }
 
     .step-number {
@@ -258,12 +265,18 @@ include 'includes/header.php';
         background-color: var(--red);
         color: var(--white);
         border-radius: 50%;
+        transition: var(--transition);
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: 700;
         border: 3px solid var(--white);
         box-shadow: var(--shadow-sm);
+    }
+
+    .step-card:hover .step-number {
+        transform: translateX(-50%) scale(1.15);
+        background-color: var(--vermilion);
     }
 
     .step-card h4 {
@@ -511,11 +524,6 @@ include 'includes/header.php';
             </div>
             <div class="step-card">
                 <div class="step-number">3</div>
-                <h4>Payment Link</h4>
-                <p>Receive invoice / banking payment guidelines for subscription fees.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-number">4</div>
                 <h4>Get Welcome Kit</h4>
                 <p>Welcome email package, ID cards issued, and mailing circular list access.</p>
             </div>
