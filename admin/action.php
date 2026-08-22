@@ -1551,6 +1551,19 @@ switch ($act) {
             }
         }
         break;
+    case 'delete_contact_message':
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        if ($id > 0) {
+            try {
+                $stmt = $pdo->prepare("DELETE FROM `contact_messages` WHERE `id` = ?");
+                $stmt->execute([$id]);
+                header('Location: contact_messages.php?success=deleted');
+                exit;
+            } catch (PDOException $e) {
+                die("Error deleting contact message: " . $e->getMessage());
+            }
+        }
+        break;
 }
 
 header('Location: dashboard.php');

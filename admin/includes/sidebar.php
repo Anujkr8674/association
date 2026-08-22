@@ -1025,6 +1025,12 @@ $page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
                     </a>
                 </li>
                 <li>
+                    <a href="contact_messages.php" class="menu-link <?php echo $current_page === 'contact_messages.php' ? 'active' : ''; ?>">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>Contact Messages</span>
+                    </a>
+                </li>
+                <li>
                     <a href="javascript:void(0)" class="menu-link menu-dropdown-toggle <?php echo (strpos($current_page, 'committee') !== false) ? 'active open' : ''; ?>" id="committee-dropdown-toggle">
                         <div style="display: flex; align-items: center; gap: 0.85rem;">
                             <i class="fa-solid fa-people-group"></i>
