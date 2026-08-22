@@ -1,4 +1,30 @@
 <?php
+require_once 'config.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    header('Content-Type: application/json');
+    $fullName = isset($_POST['full_name']) ? trim($_POST['full_name']) : '';
+    $email = isset($_POST['email']) ? trim($_POST['email']) : '';
+    $phone = isset($_POST['phone']) ? trim($_POST['phone']) : '';
+    $address = isset($_POST['address']) ? trim($_POST['address']) : '';
+    $message = isset($_POST['message']) ? trim($_POST['message']) : '';
+
+    if (empty($fullName) || empty($email) || empty($phone) || empty($address)) {
+        echo json_encode(['status' => 'error', 'message' => 'Please fill out all required fields.']);
+        exit;
+    }
+
+    try {
+        $stmt = $pdo->prepare("INSERT INTO `membership_requests` (`full_name`, `email`, `phone`, `address`, `message`) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$fullName, $email, $phone, $address, $message]);
+        echo json_encode(['status' => 'success', 'message' => 'Thank you for applying to the Bengali Cultural Association. Your application has been logged successfully!']);
+        exit;
+    } catch (PDOException $e) {
+        echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
+        exit;
+    }
+}
+
 // Include the shared header
 include 'includes/header.php';
 ?>
@@ -233,7 +259,35 @@ include 'includes/header.php';
         margin-bottom: 0;
     }
 
+    /* Modal Overlay */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        opacity: 0;
+        pointer-events: none;
+        transition: var(--transition-slow);
+    }
+
+    .modal-overlay.open {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
     /* Success Modal Styling */
+    .success-modal.error .success-icon {
+        background-color: rgba(200, 59, 45, 0.1);
+        color: var(--vermilion);
+    }
+
     .success-modal {
         background-color: var(--white);
         border-radius: var(--border-radius-lg);
@@ -398,17 +452,7 @@ include 'includes/header.php';
                         <span class="form-error" id="address-error">Please enter your residential address.</span>
                     </div>
 
-                    <!-- Membership Type -->
-                    <div class="form-group">
-                        <label class="form-label" for="member-type">Membership Tier *</label>
-                        <select id="member-type" class="form-control" required>
-                            <option value="" disabled selected>Select membership tier</option>
-                            <option value="general">General Member (Annual Subscription)</option>
-                            <option value="life">Life Member (One-time Fee)</option>
-                            <option value="patron">Patron Member (Sponsor/Supporter)</option>
-                        </select>
-                        <span class="form-error" id="type-error">Please select a membership tier.</span>
-                    </div>
+
 
                     <!-- Message Field -->
                     <div class="form-group">
@@ -462,33 +506,33 @@ include 'includes/header.php';
 
 <!-- Submission Confirmation Overlay -->
 <div class="modal-overlay" id="success-modal-overlay">
-    <div class="success-modal">
+    <div class="success-modal" style="position: relative;">
+        <!-- Close icon button top-right -->
+        <button type="button" id="success-modal-x" style="position: absolute; top: 1.25rem; right: 1.25rem; background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; opacity: 0.6; transition: var(--transition); outline: none;"><i class="fa-solid fa-xmark"></i></button>
+        
         <div class="success-icon">
-            <i class="fa-solid fa-circle-check"></i>
+            <i class="fa-solid fa-circle-check" id="modal-icon"></i>
         </div>
-        <h3 class="success-title">Request Submitted!</h3>
-        <p class="success-text">
+        <h3 class="success-title" id="modal-title">Request Submitted!</h3>
+        <p class="success-text" id="modal-text">
             Thank you for applying to the Bengali Cultural Association. Your application has been logged.
-            <br><br>
-            Our Treasurer or Joint Secretary will review the application and contact you on email/phone within <strong>48 hours</strong> with subscription details and verification instructions.
         </p>
-        <button class="btn btn-primary" id="success-modal-close" style="padding: 0.8rem 2.5rem;">Okay, Got It</button>
+        <button class="btn btn-primary" id="success-modal-close" style="padding: 0.8rem 2.5rem;">Close</button>
     </div>
 </div>
 
-<!-- Validation & Form JS -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('membership-form');
         const successModal = document.getElementById('success-modal-overlay');
         const successClose = document.getElementById('success-modal-close');
+        const successX = document.getElementById('success-modal-x');
 
         // Inputs
         const nameInput = document.getElementById('full-name');
         const emailInput = document.getElementById('email');
         const phoneInput = document.getElementById('phone');
         const addressInput = document.getElementById('address');
-        const typeInput = document.getElementById('member-type');
 
         // Helper functions
         function validateEmail(email) {
@@ -499,6 +543,49 @@ include 'includes/header.php';
         function validatePhone(phone) {
             const re = /^\d{10}$/; // Simple 10 digit validation
             return re.test(phone.replace(/[\s-()]/g, '')); // Strip spaces or special chars
+        }
+
+        let autoCloseTimeout;
+
+        function showModal(isSuccess, message) {
+            const titleEl = document.getElementById('modal-title');
+            const textEl = document.getElementById('modal-text');
+            const iconEl = document.getElementById('modal-icon');
+            const modalContainer = document.querySelector('.success-modal');
+
+            if (isSuccess) {
+                modalContainer.classList.remove('error');
+                iconEl.className = 'fa-solid fa-circle-check';
+                titleEl.innerText = 'Request Submitted!';
+                textEl.innerHTML = message || 'Thank you for applying to the Bengali Cultural Association. Your application has been logged.';
+            } else {
+                modalContainer.classList.add('error');
+                iconEl.className = 'fa-solid fa-circle-xmark';
+                titleEl.innerText = 'Submission Failed!';
+                textEl.innerText = message || 'There was an error submitting your request. Please try again.';
+            }
+
+            successModal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+
+            // Clear any previous timeout
+            if (autoCloseTimeout) {
+                clearTimeout(autoCloseTimeout);
+            }
+
+            // Auto close after 3 seconds
+            autoCloseTimeout = setTimeout(() => {
+                closeModal();
+            }, 3000);
+        }
+
+        function closeModal() {
+            successModal.classList.remove('open');
+            document.body.style.overflow = '';
+            if (autoCloseTimeout) {
+                clearTimeout(autoCloseTimeout);
+            }
+            form.reset();
         }
 
         form.addEventListener('submit', function (e) {
@@ -545,29 +632,42 @@ include 'includes/header.php';
                 addressInput.style.borderColor = '';
             }
 
-            // Membership type validation
-            if (typeInput.value === '') {
-                document.getElementById('type-error').style.display = 'block';
-                typeInput.style.borderColor = 'var(--vermilion)';
-                isValid = false;
-            } else {
-                document.getElementById('type-error').style.display = 'none';
-                typeInput.style.borderColor = '';
-            }
-
-            // If form passes all validation, trigger success overlay popup
             if (isValid) {
-                successModal.classList.add('open');
-                document.body.style.overflow = 'hidden';
+                const formData = new FormData();
+                formData.append('full_name', nameInput.value.trim());
+                formData.append('email', emailInput.value.trim());
+                formData.append('phone', phoneInput.value.trim());
+                formData.append('address', addressInput.value.trim());
+                formData.append('message', document.getElementById('message').value.trim());
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'join-us.php', true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        try {
+                            const res = JSON.parse(xhr.responseText);
+                            if (res.status === 'success') {
+                                showModal(true, res.message);
+                            } else {
+                                showModal(false, res.message);
+                            }
+                        } catch(e) {
+                            showModal(false, 'Invalid response from server.');
+                        }
+                    } else {
+                        showModal(false, 'Server error: ' + xhr.status);
+                    }
+                };
+                xhr.onerror = function() {
+                    showModal(false, 'A network error occurred.');
+                };
+                xhr.send(formData);
             }
         });
 
-        // Reset and close modal
-        successClose.addEventListener('click', function () {
-            successModal.classList.remove('open');
-            document.body.style.overflow = '';
-            form.reset();
-        });
+        // Close handlers
+        successClose.addEventListener('click', closeModal);
+        successX.addEventListener('click', closeModal);
     });
 </script>
 

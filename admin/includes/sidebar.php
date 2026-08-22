@@ -1060,14 +1060,14 @@ $page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
                     </ul>
                 </li>
                 <li>
-                    <a href="javascript:void(0)" class="menu-link menu-dropdown-toggle <?php echo (strpos($current_page, 'members_') !== false) ? 'active open' : ''; ?>" id="members-dropdown-toggle">
+                    <a href="javascript:void(0)" class="menu-link menu-dropdown-toggle <?php echo (strpos($current_page, 'members_') !== false || $current_page === 'membership_requests.php') ? 'active open' : ''; ?>" id="members-dropdown-toggle">
                         <div style="display: flex; align-items: center; gap: 0.85rem;">
                             <i class="fa-solid fa-users"></i>
                             <span>Members</span>
                         </div>
                         <i class="fa-solid fa-chevron-down"></i>
                     </a>
-                    <ul class="sidebar-menu-dropdown <?php echo (strpos($current_page, 'members_') !== false) ? 'show' : ''; ?>" id="members-dropdown-menu">
+                    <ul class="sidebar-menu-dropdown <?php echo (strpos($current_page, 'members_') !== false || $current_page === 'membership_requests.php') ? 'show' : ''; ?>" id="members-dropdown-menu">
                         <li>
                             <a href="members_our.php" class="menu-link <?php echo $current_page === 'members_our.php' ? 'active' : ''; ?>" style="padding-left: 2.2rem; font-size: 0.85rem; opacity: 0.9;">
                                 <i class="fa-solid fa-file-pdf" style="font-size: 0.75rem;"></i>
@@ -1078,6 +1078,12 @@ $page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
                             <a href="members_profile.php" class="menu-link <?php echo $current_page === 'members_profile.php' ? 'active' : ''; ?>" style="padding-left: 2.2rem; font-size: 0.85rem; opacity: 0.9;">
                                 <i class="fa-solid fa-file-invoice" style="font-size: 0.75rem;"></i>
                                 <span>Member Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="membership_requests.php" class="menu-link <?php echo $current_page === 'membership_requests.php' ? 'active' : ''; ?>" style="padding-left: 2.2rem; font-size: 0.85rem; opacity: 0.9;">
+                                <i class="fa-solid fa-clipboard-list" style="font-size: 0.75rem;"></i>
+                                <span>Join Requests</span>
                             </a>
                         </li>
                     </ul>

@@ -1537,6 +1537,20 @@ switch ($act) {
             }
         }
         break;
+
+    case 'delete_membership_request':
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        if ($id > 0) {
+            try {
+                $stmt = $pdo->prepare("DELETE FROM `membership_requests` WHERE `id` = ?");
+                $stmt->execute([$id]);
+                header('Location: membership_requests.php?success=deleted');
+                exit;
+            } catch (PDOException $e) {
+                die("Error deleting membership request: " . $e->getMessage());
+            }
+        }
+        break;
 }
 
 header('Location: dashboard.php');
