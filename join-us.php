@@ -101,7 +101,19 @@ include 'includes/header.php';
     .benefit-item {
         display: flex;
         gap: 1.25rem;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
+        background-color: var(--white);
+        padding: 1.5rem;
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition);
+    }
+
+    .benefit-item:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--red);
     }
 
     .benefit-icon {
@@ -116,6 +128,13 @@ include 'includes/header.php';
         font-size: 1.2rem;
         flex-shrink: 0;
         box-shadow: var(--shadow-sm);
+        transition: var(--transition);
+    }
+
+    .benefit-item:hover .benefit-icon {
+        background-color: var(--red);
+        color: var(--white);
+        transform: rotate(360deg);
     }
 
     .benefit-content h4 {
