@@ -299,10 +299,15 @@ $is_home = ($current_page == 'index.php' || $current_page == '' || $current_page
         }
 
         .logo-img {
-            height: 60px;
+            height: 85px;
             width: auto;
             object-fit: contain;
-            transition: var(--transition);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .logo:hover .logo-img {
+            transform: scale(1.08) translateY(-2px);
+            filter: drop-shadow(0 5px 12px rgba(139, 30, 30, 0.2));
         }
 
         .site-header.header-transparent:not(.scrolled) .logo-symbol {
