@@ -102,13 +102,32 @@ include 'includes/header.php';
         display: flex;
         gap: 1.5rem;
         align-items: center;
-        transition: var(--transition);
+        transition: all 0.3s ease;
     }
 
     .contact-info-card:hover {
         transform: translateY(-2px);
         box-shadow: var(--shadow-md);
         border-color: var(--gold);
+        background-color: var(--red);
+    }
+
+    .contact-info-card:hover .contact-info-icon:not([style*="background-color"]) {
+        background-color: var(--white);
+        color: var(--red);
+    }
+
+    .contact-info-card:hover .contact-info-text h4 {
+        color: var(--white);
+    }
+
+    .contact-info-card:hover .contact-info-text p,
+    .contact-info-card:hover .contact-info-text a {
+        color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    .contact-info-card:hover .contact-info-text a:hover {
+        color: var(--gold) !important;
     }
 
     .contact-info-icon {

@@ -1,7 +1,19 @@
 <?php
+require_once 'config.php';
+
+// Fetch active broadcast ad
+$active_ad = null;
+try {
+    if (isset($pdo)) {
+        $stmt_ad = $pdo->query("SELECT * FROM `broadcast_ads` WHERE `status` = 1 ORDER BY `created_at` DESC LIMIT 1");
+        $active_ad = $stmt_ad->fetch(PDO::FETCH_ASSOC);
+    }
+} catch (PDOException $e) {
+    // Fail silently
+}
+
 // Include the shared header and db config
 include 'includes/header.php';
-require_once 'config.php';
 
 // Static Data Arrays with high-quality Unsplash URLs for immediate loading
 $hero_slides = [
@@ -21,6 +33,23 @@ $hero_slides = [
         'subtitle' => 'Fostering Bonding, Togetherness, and Social Development'
     ]
 ];
+
+try {
+    $stmt_hero = $pdo->query("SELECT * FROM `hero_slides` WHERE `page` = 'home' ORDER BY `sort_order` ASC");
+    $db_slides = $stmt_hero->fetchAll(PDO::FETCH_ASSOC);
+    if (!empty($db_slides)) {
+        $hero_slides = [];
+        foreach ($db_slides as $ds) {
+            $hero_slides[] = [
+                'image' => $ds['image_path'],
+                'title' => $ds['title'],
+                'subtitle' => $ds['subtitle']
+            ];
+        }
+    }
+} catch (PDOException $e) {
+    // Fallback to defaults
+}
 
 $events = [
     [
@@ -1049,7 +1078,7 @@ $testimonials = [
         border-radius: var(--border-radius-lg);
         overflow: hidden;
         box-shadow: var(--shadow-sm);
-        transition: var(--transition-slow);
+        transition: all 0.3s ease;
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -1133,11 +1162,28 @@ $testimonials = [
     .blog-card:hover {
         transform: translateY(-6px);
         box-shadow: var(--shadow-lg);
-        border-color: rgba(201, 154, 46, 0.3);
+        border-color: var(--gold);
+        background-color: var(--red);
     }
 
     .blog-card:hover .blog-card-img {
         transform: scale(1.06);
+    }
+
+    .blog-card:hover .blog-card-title {
+        color: var(--white);
+    }
+
+    .blog-card:hover .blog-card-excerpt {
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .blog-card:hover .blog-card-meta {
+        color: rgba(255, 255, 255, 0.75);
+    }
+
+    .blog-card:hover .blog-card-link {
+        color: var(--gold) !important;
     }
 
     .blogs-footer {
@@ -1186,7 +1232,12 @@ $testimonials = [
     }
 
     .faq-question:hover {
-        background-color: var(--secondary-bg);
+        background-color: var(--red);
+        color: var(--white);
+    }
+
+    .faq-question:hover .faq-icon {
+        background-color: var(--white);
         color: var(--red);
     }
 
@@ -1203,16 +1254,20 @@ $testimonials = [
         font-size: 0.75rem;
     }
 
+    .faq-item.active {
+        border-color: var(--gold);
+    }
+
     .faq-item.active .faq-icon {
-        background-color: var(--red);
+        background-color: var(--gold);
         color: var(--white);
         transform: rotate(180deg);
     }
 
     .faq-item.active .faq-question {
-        border-bottom: 1px solid var(--border-color);
-        background-color: var(--secondary-bg);
-        color: var(--red);
+        border-bottom: 1px solid var(--gold);
+        background-color: var(--red);
+        color: var(--white);
     }
 
     .faq-answer {
@@ -1225,8 +1280,8 @@ $testimonials = [
         padding: 1.8rem 2.2rem;
         font-size: 0.95rem;
         line-height: 1.7;
-        color: var(--text-muted);
-        background-color: var(--white);
+        color: var(--dark);
+        background-color: var(--primary-bg);
     }
 
     /* ==========================================================================
@@ -1268,6 +1323,34 @@ $testimonials = [
         min-height: 310px;
         position: relative;
         border: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+    }
+
+    .testimonial-card:hover {
+        background-color: var(--red);
+        border-color: var(--gold);
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-4px);
+    }
+
+    .testimonial-card:hover .testimonial-text {
+        color: rgba(255, 255, 255, 0.95);
+    }
+
+    .testimonial-card:hover .testimonial-author {
+        border-top-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .testimonial-card:hover .testimonial-name {
+        color: var(--gold);
+    }
+
+    .testimonial-card:hover .testimonial-date {
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    .testimonial-card:hover .review-google-badge {
+        color: var(--gold);
     }
 
     /* Google Review badge styling */
@@ -1281,6 +1364,7 @@ $testimonials = [
         font-size: 0.7rem;
         font-weight: 700;
         color: #4285F4;
+        transition: color 0.3s ease;
     }
 
     .review-google-badge i {
@@ -2295,9 +2379,9 @@ $testimonials = [
             </div>
         </div>
 
-        <div class="testimonials-footer">
+        <!-- <div class="testimonials-footer">
             <a href="about.php#activities" class="btn btn-secondary">View More Reviews <i class="fa-solid fa-quote-left"></i></a>
-        </div>
+        </div> -->
     </div>
 </section>
 
@@ -2946,6 +3030,174 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
     </div>
 </div>
+
+<?php if ($active_ad): ?>
+    <?php 
+    $ad_images = !empty($active_ad['images']) ? json_decode($active_ad['images'], true) : [];
+    if (!is_array($ad_images)) $ad_images = [];
+    ?>
+    <!-- Broadcast Ad Modal -->
+    <div id="broadcast-ad-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(33, 26, 23, 0.65); z-index: 99999; align-items: center; justify-content: center; backdrop-filter: blur(5px); opacity: 0; transition: opacity 0.4s ease;">
+        <div style="position: relative; width: 90%; max-width: 750px; height: 70vh; display: flex; flex-direction: column; background-color: var(--white); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid rgba(139, 30, 30, 0.1); transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);" id="broadcast-ad-card">
+            
+            <!-- Close Button -->
+            <button id="broadcast-ad-close" style="position: absolute; top: 12px; right: 12px; background: rgba(33, 26, 23, 0.6); border: none; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; cursor: pointer; z-index: 10; transition: var(--transition);" aria-label="Close Ad"><i class="fa-solid fa-times"></i></button>
+
+            <!-- Carousel Section -->
+            <?php if (count($ad_images) > 0): ?>
+                <div style="position: relative; width: 100%; flex-grow: 1; overflow: hidden; background-color: var(--secondary-bg);" id="ad-carousel-container">
+                    <!-- Slides -->
+                    <?php foreach ($ad_images as $idx => $img_path): ?>
+                        <div class="ad-slide <?php echo $idx === 0 ? 'active' : ''; ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: <?php echo $idx === 0 ? '1' : '0'; ?>; transition: opacity 0.6s ease-in-out; z-index: <?php echo $idx === 0 ? '2' : '1'; ?>;">
+                            <img src="<?php echo htmlspecialchars($img_path); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="Broadcast Slide">
+                        </div>
+                    <?php endforeach; ?>
+
+                    <!-- Carousel Controls (if more than 1 image) -->
+                    <?php if (count($ad_images) > 1): ?>
+                        <!-- Prev Arrow -->
+                        <button id="ad-prev-btn" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(33, 26, 23, 0.5); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; cursor: pointer; z-index: 5; transition: var(--transition);"><i class="fa-solid fa-chevron-left"></i></button>
+                        <!-- Next Arrow -->
+                        <button id="ad-next-btn" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(33, 26, 23, 0.5); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; cursor: pointer; z-index: 5; transition: var(--transition);"><i class="fa-solid fa-chevron-right"></i></button>
+
+                        <!-- Indicators -->
+                        <div style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 0.4rem; z-index: 5;">
+                            <?php foreach ($ad_images as $idx => $img_path): ?>
+                                <span class="ad-dot <?php echo $idx === 0 ? 'active' : ''; ?>" data-slide="<?php echo $idx; ?>" style="width: 8px; height: 8px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.5); cursor: pointer; transition: var(--transition);"></span>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+
+            <!-- Content Section -->
+            <div style="padding: 1.5rem 1.5rem; text-align: center; flex-shrink: 0; background-color: var(--white); border-top: 1px solid rgba(0,0,0,0.05);">
+                <h3 style="font-family: var(--font-headings); font-size: 1.4rem; color: var(--dark); font-weight: 700; margin-bottom: 0.5rem;"><?php echo htmlspecialchars($active_ad['title']); ?></h3>
+                <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.5; margin-bottom: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"><?php echo htmlspecialchars($active_ad['description']); ?></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Styles for carousel indicators and active classes -->
+    <style>
+        .ad-slide.active {
+            opacity: 1 !important;
+            z-index: 2 !important;
+        }
+        .ad-dot.active {
+            background-color: var(--white) !important;
+            transform: scale(1.2);
+            box-shadow: 0 0 6px rgba(0,0,0,0.3);
+        }
+        #broadcast-ad-close:hover,
+        #ad-prev-btn:hover,
+        #ad-next-btn:hover {
+            background-color: var(--red) !important;
+        }
+    </style>
+
+    <!-- Carousel & Popup Animation Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const overlay = document.getElementById('broadcast-ad-overlay');
+            const card = document.getElementById('broadcast-ad-card');
+            const closeBtn = document.getElementById('broadcast-ad-close');
+            const slides = document.querySelectorAll('.ad-slide');
+            const dots = document.querySelectorAll('.ad-dot');
+            const prevBtn = document.getElementById('ad-prev-btn');
+            const nextBtn = document.getElementById('ad-next-btn');
+
+            let currentSlide = 0;
+            let slideInterval;
+            let autoCloseTimeout;
+
+            // Open Modal after 1 second delay
+            setTimeout(() => {
+                overlay.style.display = 'flex';
+                setTimeout(() => {
+                    overlay.style.opacity = '1';
+                    card.style.transform = 'scale(1)';
+
+                    // Automatically close the ad after all images are displayed (each shown for 3 seconds)
+                    const totalDuration = (slides.length > 0 ? slides.length : 1) * 3000;
+                    autoCloseTimeout = setTimeout(closeAdModal, totalDuration);
+                }, 50);
+            }, 1000);
+
+            // Close Modal function
+            function closeAdModal() {
+                if (autoCloseTimeout) clearTimeout(autoCloseTimeout);
+                if (slideInterval) clearInterval(slideInterval);
+                
+                overlay.style.opacity = '0';
+                card.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 400);
+            }
+
+            if (closeBtn) closeBtn.addEventListener('click', closeAdModal);
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) closeAdModal();
+            });
+
+            // Carousel control script
+
+            if (slides.length > 1) {
+                function showSlide(index) {
+                    slides.forEach(s => s.classList.remove('active'));
+                    dots.forEach(d => d.classList.remove('active'));
+                    
+                    currentSlide = (index + slides.length) % slides.length;
+                    slides[currentSlide].classList.add('active');
+                    if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+                }
+
+                function nextSlide() {
+                    showSlide(currentSlide + 1);
+                }
+
+                function prevSlide() {
+                    showSlide(currentSlide - 1);
+                }
+
+                // Start Auto-carousel timer (every 3 seconds)
+                function startAutoPlay() {
+                    slideInterval = setInterval(nextSlide, 3000);
+                }
+
+                function resetAutoPlay() {
+                    clearInterval(slideInterval);
+                    startAutoPlay();
+                }
+
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => {
+                        nextSlide();
+                        resetAutoPlay();
+                    });
+                }
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', () => {
+                        prevSlide();
+                        resetAutoPlay();
+                    });
+                }
+
+                dots.forEach(dot => {
+                    dot.addEventListener('click', function() {
+                        const target = parseInt(this.getAttribute('data-slide'));
+                        showSlide(target);
+                        resetAutoPlay();
+                    });
+                });
+
+                startAutoPlay();
+            }
+        });
+    </script>
+<?php endif; ?>
 
 <?php
 // Include the shared footer

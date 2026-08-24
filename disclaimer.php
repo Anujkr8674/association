@@ -65,6 +65,26 @@ include 'includes/header.php';
         border-radius: var(--border-radius-lg);
         padding: 3.5rem;
         box-shadow: var(--shadow-sm);
+        transition: all 0.3s ease;
+    }
+
+    .disc-content:hover {
+        background-color: var(--red);
+        border-color: var(--gold);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .disc-content:hover h2 {
+        color: var(--gold);
+        border-bottom-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .disc-content:hover p {
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .disc-content:hover strong {
+        color: var(--gold) !important;
     }
 
     .disc-content h2 {

@@ -207,7 +207,7 @@ foreach ($all_blogs as $b) {
         overflow: hidden;
         box-shadow: var(--shadow-sm);
         border: 1px solid var(--border-color);
-        transition: var(--transition-slow);
+        transition: all 0.3s ease;
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -220,7 +220,34 @@ foreach ($all_blogs as $b) {
     .blog-item-card:hover {
         transform: translateY(-6px);
         box-shadow: var(--shadow-lg);
-        border-color: rgba(201, 154, 46, 0.4);
+        border-color: var(--gold);
+        background-color: var(--red);
+    }
+
+    .blog-item-card:hover .blog-item-title {
+        color: var(--white);
+    }
+
+    .blog-item-card:hover .blog-item-excerpt {
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .blog-item-card:hover .blog-item-meta {
+        color: rgba(255, 255, 255, 0.75);
+    }
+
+    .blog-item-card:hover .blog-item-cat-badge {
+        background-color: var(--gold);
+        color: var(--white);
+    }
+
+    .blog-item-card:hover .blog-expand-btn {
+        color: var(--gold) !important;
+    }
+
+    .blog-item-card:hover .blog-expand-inner {
+        color: rgba(255, 255, 255, 0.9);
+        border-top-color: rgba(255, 255, 255, 0.15);
     }
 
     .blog-item-img-box {

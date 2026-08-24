@@ -197,7 +197,20 @@ include 'includes/header.php';
     .timeline-item:hover .timeline-content {
         box-shadow: var(--shadow-lg);
         transform: translateY(-2px);
-        border-color: rgba(201, 154, 46, 0.3);
+        border-color: var(--gold);
+        background-color: var(--red);
+    }
+
+    .timeline-item:hover .timeline-year {
+        color: var(--gold);
+    }
+
+    .timeline-item:hover .timeline-content h4 {
+        color: var(--white);
+    }
+
+    .timeline-item:hover .timeline-content p {
+        color: rgba(255, 255, 255, 0.9);
     }
 
     /* Vision Mission Grid */
@@ -227,6 +240,21 @@ include 'includes/header.php';
     .vm-card:hover {
         transform: translateY(-5px);
         box-shadow: var(--shadow-lg);
+        background-color: var(--red);
+        border-top-color: var(--gold);
+    }
+
+    .vm-card:hover .vm-title {
+        color: var(--white);
+    }
+
+    .vm-card:hover .vm-text {
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .vm-card:hover .vm-icon-box {
+        background-color: var(--white);
+        color: var(--red);
     }
 
     .vm-icon-box {
@@ -462,7 +490,7 @@ include 'includes/header.php';
         padding: 2.5rem 1.8rem;
         border-radius: var(--border-radius);
         text-align: center;
-        transition: var(--transition-slow);
+        transition: all 0.3s ease;
         border-top: 4px solid var(--gold);
         display: flex;
         flex-direction: column;
@@ -472,7 +500,8 @@ include 'includes/header.php';
     .highlight-card:hover {
         transform: translateY(-5px);
         box-shadow: var(--shadow-lg);
-        border-top-color: var(--red);
+        border-top-color: var(--gold);
+        background-color: var(--red);
     }
 
     .highlight-card i {
@@ -490,8 +519,16 @@ include 'includes/header.php';
     }
 
     .highlight-card:hover i {
-        background-color: var(--red);
-        color: var(--gold);
+        background-color: var(--white);
+        color: var(--red);
+    }
+
+    .highlight-card:hover h4 {
+        color: var(--white);
+    }
+
+    .highlight-card:hover p {
+        color: rgba(255, 255, 255, 0.9);
     }
 
     .highlight-card h4 {

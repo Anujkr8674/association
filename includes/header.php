@@ -55,11 +55,31 @@ $is_home = ($current_page == 'index.php' || $current_page == '' || $current_page
             box-sizing: border-box;
         }
 
+        /* scroll bar clr */
         html {
             scroll-behavior: smooth;
             font-size: 16px;
+            scrollbar-width: thin;
+            scrollbar-color: #a51c30 var(--primary-bg);
         }
 
+        /* Custom scrollbar styling for Webkit browsers */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--primary-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #a51c30, #d9a441);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #d9a441, #a51c30);
+        }
+
+        /* scroolbar clr end  */
         body {
             background-color: var(--primary-bg);
             color: var(--dark);
@@ -249,6 +269,7 @@ $is_home = ($current_page == 'index.php' || $current_page == '' || $current_page
         /* Scrolled state with glassmorphism */
         .site-header.scrolled {
             background-color: rgba(255, 255, 255, 0.9);
+            /* background-color: var(--red); */
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             box-shadow: var(--shadow-md);
@@ -543,16 +564,54 @@ $is_home = ($current_page == 'index.php' || $current_page == '' || $current_page
             background-color: var(--white);
             z-index: 1002;
             box-shadow: -5px 0 30px rgba(0,0,0,0.15);
-            padding: 6rem 2rem 2rem 2rem;
+            padding: 1.5rem 2.0rem 2rem 2.0rem;
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: 1.5rem;
             overflow-y: auto;
             transition: cubic-bezier(0.4, 0, 0.2, 1) 0.4s;
         }
 
         .mobile-nav.open {
             right: 0;
+        }
+
+        /* Mobile Drawer Header logo & close */
+        .mobile-drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .mobile-drawer-logo .mobile-logo-img {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .mobile-drawer-close {
+            background: none;
+            border: none;
+            color: var(--dark);
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .mobile-drawer-close:hover {
+            background-color: var(--secondary-bg);
+            color: var(--red);
         }
 
         .mobile-menu {
@@ -752,6 +811,16 @@ $is_home = ($current_page == 'index.php' || $current_page == '' || $current_page
 
     <!-- Mobile Navigation Drawer -->
     <nav class="mobile-nav" id="mobile-drawer">
+        <!-- Mobile Drawer Header -->
+        <div class="mobile-drawer-header">
+            <div class="mobile-drawer-logo">
+                <img src="images/logo_new.png" alt="BCA Logo" class="mobile-logo-img">
+            </div>
+            <button class="mobile-drawer-close" id="mobile-close" aria-label="Close Menu">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        
         <ul class="mobile-menu">
             <li class="mobile-item">
                 <a href="index.php" class="mobile-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Home</a>
@@ -851,6 +920,7 @@ $is_home = ($current_page == 'index.php' || $current_page == '' || $current_page
             const mobileToggle = document.getElementById('mobile-toggle');
             const mobileOverlay = document.getElementById('mobile-overlay');
             const mobileDrawer = document.getElementById('mobile-drawer');
+            const mobileClose = document.getElementById('mobile-close');
             
             function toggleMenu() {
                 mobileToggle.classList.toggle('open');
@@ -867,6 +937,9 @@ $is_home = ($current_page == 'index.php' || $current_page == '' || $current_page
             
             mobileToggle.addEventListener('click', toggleMenu);
             mobileOverlay.addEventListener('click', toggleMenu);
+            if (mobileClose) {
+                mobileClose.addEventListener('click', toggleMenu);
+            }
             
             // Close mobile menu when a direct link is clicked
             const mobileLinks = document.querySelectorAll('.mobile-link:not(.mobile-dropdown-toggle), .mobile-dropdown-link');

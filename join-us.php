@@ -107,13 +107,14 @@ include 'includes/header.php';
         border: 1px solid var(--border-color);
         border-radius: var(--border-radius);
         box-shadow: var(--shadow-sm);
-        transition: var(--transition);
+        transition: all 0.3s ease;
     }
 
     .benefit-item:hover {
         transform: translateY(-4px);
         box-shadow: var(--shadow-md);
-        border-color: var(--red);
+        border-color: var(--gold);
+        background-color: var(--red);
     }
 
     .benefit-icon {
@@ -132,9 +133,17 @@ include 'includes/header.php';
     }
 
     .benefit-item:hover .benefit-icon {
-        background-color: var(--red);
-        color: var(--white);
+        background-color: var(--white);
+        color: var(--red);
         transform: rotate(360deg);
+    }
+
+    .benefit-item:hover .benefit-content h4 {
+        color: var(--white);
+    }
+
+    .benefit-item:hover .benefit-content p {
+        color: rgba(255, 255, 255, 0.9);
     }
 
     .benefit-content h4 {

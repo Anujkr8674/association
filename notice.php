@@ -1,54 +1,49 @@
 <?php
+require_once 'config.php';
+
+// Fetch notice categories
+try {
+    $categories = $pdo->query("SELECT * FROM `notice_categories` ORDER BY `name` ASC")->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $categories = [];
+}
+
+// Active Filter
+$active_filter = isset($_GET['category']) ? trim($_GET['category']) : 'all';
+
+// Pagination variables
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+$limit = 10;
+$offset = ($page - 1) * $limit;
+$total_rows = 0;
+$total_pages = 1;
+
+try {
+    if ($active_filter === 'all') {
+        $total_rows = $pdo->query("SELECT COUNT(*) FROM `notices`")->fetchColumn();
+        $total_pages = max(1, ceil($total_rows / $limit));
+        
+        $stmt = $pdo->prepare("SELECT * FROM `notices` ORDER BY `date` DESC LIMIT :limit OFFSET :offset");
+    } else {
+        $stmt_count = $pdo->prepare("SELECT COUNT(*) FROM `notices` WHERE `category` = ?");
+        $stmt_count->execute([$active_filter]);
+        $total_rows = $stmt_count->fetchColumn();
+        $total_pages = max(1, ceil($total_rows / $limit));
+        
+        $stmt = $pdo->prepare("SELECT * FROM `notices` WHERE `category` = :category ORDER BY `date` DESC LIMIT :limit OFFSET :offset");
+        $stmt->bindValue(':category', $active_filter, PDO::PARAM_STR);
+    }
+    
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $announcements = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $announcements = [];
+}
+
 // Include the shared header
 include 'includes/header.php';
-
-// Announcements list
-$announcements = [
-    [
-        'id' => 1,
-        'title' => 'Durga Puja Souvenir Magazine "Sharodiyo Patrika 2026" - Call for Submissions',
-        'category' => 'General',
-        'date_day' => '15',
-        'date_month' => 'AUG',
-        'date_year' => '2026',
-        'tag' => 'Magazine',
-        'excerpt' => 'Submit your articles, poems, short stories, and kids paintings for our annual souvenir. Deadline is September 10, 2026.',
-        'full' => 'We invite all member families, children, and cultural patrons to contribute to the 2026 edition of "Sharodiyo Patrika". Submissions are accepted in both Bengali and English. We welcome short essays on heritage, poetry, travelogues, drawings, and paintings. Send your files to magazine@bengalicultural.org. Please attach your name, a short bio, and a high-resolution photo.'
-    ],
-    [
-        'id' => 2,
-        'title' => 'Annual General Meeting (AGM) 2026 Notification',
-        'category' => 'Notices',
-        'date_day' => '05',
-        'date_month' => 'SEP',
-        'date_year' => '2026',
-        'tag' => 'Official Meeting',
-        'excerpt' => 'All registered life and general members are requested to attend the Annual General Meeting to elect new committee members.',
-        'full' => 'The Annual General Meeting of the Bengali Cultural Association will be held on Sunday, September 27, 2026, at 10:30 AM in the Association Hall. Agenda: (1) Approval of the audited accounts for FY 2025-26, (2) Secretary\'s annual operations report, (3) Election of Executive Committee members for the term 2026-2028, and (4) Discussion on Durga Puja pandal budget. Buffet lunch will be served post-adjournment.'
-    ],
-    [
-        'id' => 3,
-        'title' => 'Bengali Folk Dance Rehearsals for Durga Puja 2026',
-        'category' => 'Events',
-        'date_day' => '20',
-        'date_month' => 'AUG',
-        'date_year' => '2026',
-        'tag' => 'Rehearsals',
-        'excerpt' => 'Rehearsals for the primary kids group and adult ladies folk dance begin this Sunday at the community center.',
-        'full' => 'Our Cultural Secretary, Shri. Arindam Das, will coordinate dance and choir practices starting August 23, 2026. Practices will occur every Saturday (04:00 PM - 06:00 PM) and Sunday (10:00 AM - 12:00 PM). Parents who wish to enroll their children (ages 6 to 15) for the Durga Puja cultural night inaugurals must register with the cultural desk before rehearsals start.'
-    ],
-    [
-        'id' => 4,
-        'title' => 'Emergency Relief Fund Support for Floods',
-        'category' => 'Notices',
-        'date_day' => '29',
-        'date_month' => 'JUL',
-        'date_year' => '2026',
-        'tag' => 'Social Work',
-        'excerpt' => 'The association is collecting funds and dry rations to support rural families affected by recent monsoon inundations.',
-        'full' => 'In response to the severe flooding in nearby rural districts, the association is establishing a flood relief operations team. We are accepting monetary donations directly to our bank account (BCA Welfare Trust). Furthermore, clean clothes, milk packets, grains, and dry medicines can be dropped off at our main office center between 09:00 AM and 05:00 PM daily.'
-    ]
-];
 ?>
 
 <style>
@@ -181,7 +176,7 @@ $announcements = [
     }
 
     .ann-card:hover .ann-date-block {
-        background-color: rgba(139, 30, 30, 0.04);
+        background-color: var(--red);
     }
 
     .ann-date-day {
@@ -192,6 +187,11 @@ $announcements = [
         line-height: 1;
         margin-bottom: 0.2rem;
         display: block;
+        transition: var(--transition);
+    }
+
+    .ann-card:hover .ann-date-day {
+        color: var(--white);
     }
 
     .ann-date-month {
@@ -201,12 +201,22 @@ $announcements = [
         letter-spacing: 1.5px;
         display: block;
         margin-bottom: 0.25rem;
+        transition: var(--transition);
+    }
+
+    .ann-card:hover .ann-date-month {
+        color: var(--gold);
     }
 
     .ann-date-year {
         font-size: 0.8rem;
         color: var(--text-muted);
         font-weight: 500;
+        transition: var(--transition);
+    }
+
+    .ann-card:hover .ann-date-year {
+        color: rgba(255, 255, 255, 0.85);
     }
 
     /* Right content block */
@@ -420,12 +430,54 @@ $announcements = [
             align-items: stretch;
         }
     }
+
+    /* Responsive Notice Attachments */
+    .notice-attachments-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.8rem;
+        width: 100%;
+    }
+
+    .notice-file-badge {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        background-color: var(--secondary-bg);
+        border: 1px solid var(--border-color);
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        width: 100%;
+        max-width: 320px;
+        gap: 0.5rem;
+        transition: var(--transition);
+    }
+
+    .notice-file-badge:hover {
+        background-color: var(--white);
+        box-shadow: var(--shadow-sm);
+        border-color: var(--gold);
+    }
+
+    @media (max-width: 576px) {
+        .notice-attachments-container {
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+        }
+        .notice-file-badge {
+            max-width: 100%;
+        }
+    }
 </style>
 
 <!-- Banner Header -->
 <section class="ann-banner">
     <div class="container">
-        <h1 class="ann-banner-title">Official Announcements</h1>
+        <h1 class="ann-banner-title">Official Notices</h1>
         <span class="ann-banner-subtitle">Stay Informed with the Notice Board</span>
     </div>
 </section>
@@ -436,116 +488,117 @@ $announcements = [
         
         <!-- Category Filters -->
         <div class="ann-filters">
-            <button class="ann-filter-btn active" data-filter="all">All Bulletins</button>
-            <button class="ann-filter-btn" data-filter="Notices">Notices</button>
-            <button class="ann-filter-btn" data-filter="Events">Events Info</button>
-            <button class="ann-filter-btn" data-filter="General">General News</button>
+            <a href="notice.php?category=all" class="ann-filter-btn <?php echo $active_filter === 'all' ? 'active' : ''; ?>" style="text-decoration: none; display: inline-block; text-align: center;">All Bulletins</a>
+            <?php foreach ($categories as $cat): ?>
+                <a href="notice.php?category=<?php echo urlencode($cat['name']); ?>" class="ann-filter-btn <?php echo $active_filter === $cat['name'] ? 'active' : ''; ?>" style="text-decoration: none; display: inline-block; text-align: center;"><?php echo htmlspecialchars($cat['name']); ?></a>
+            <?php endforeach; ?>
         </div>
 
         <!-- Announcements Stack -->
         <div class="ann-list">
-            <?php foreach ($announcements as $item): ?>
-                <div class="ann-card" data-category="<?php echo $item['category']; ?>">
-                    <!-- Date Column -->
-                    <div class="ann-date-block">
-                        <span class="ann-date-day"><?php echo $item['date_day']; ?></span>
-                        <div>
-                            <span class="ann-date-month"><?php echo $item['date_month']; ?></span>
-                            <span class="ann-date-year"><?php echo $item['date_year']; ?></span>
-                        </div>
-                    </div>
-
-                    <!-- Content Column -->
-                    <div class="ann-content-block">
-                        <div class="ann-header-meta">
-                            <span class="ann-cat-badge"><?php echo $item['category']; ?></span>
-                            <span class="ann-tag-text"><i class="fa-solid fa-hashtag" style="color: var(--gold); font-size: 0.75rem;"></i> <?php echo $item['tag']; ?></span>
-                        </div>
-                        <h3 class="ann-title"><?php echo $item['title']; ?></h3>
-                        <p class="ann-excerpt"><?php echo $item['excerpt']; ?></p>
-
-                        <!-- Expandable full text -->
-                        <div class="ann-full-text">
-                            <div class="ann-full-text-inner">
-                                <p><?php echo $item['full']; ?></p>
+            <?php if (empty($announcements)): ?>
+                <div class="ann-no-items" style="display: block;">
+                    <i class="fa-regular fa-folder-open"></i>
+                    <h3>No Announcements</h3>
+                    <p>There are no active notices or announcements under this category. Please check again later.</p>
+                </div>
+            <?php else: ?>
+                <?php foreach ($announcements as $item): ?>
+                    <?php 
+                    $time = strtotime($item['date']);
+                    $date_day = date('d', $time);
+                    $date_month = strtoupper(date('M', $time));
+                    $date_year = date('Y', $time);
+                    $attachments = !empty($item['attachments']) ? json_decode($item['attachments'], true) : [];
+                    ?>
+                    <div class="ann-card" data-category="<?php echo htmlspecialchars($item['category']); ?>">
+                        <!-- Date Column -->
+                        <div class="ann-date-block">
+                            <span class="ann-date-day"><?php echo $date_day; ?></span>
+                            <div>
+                                <span class="ann-date-month"><?php echo $date_month; ?></span>
+                                <span class="ann-date-year"><?php echo $date_year; ?></span>
                             </div>
                         </div>
 
-                        <!-- Read More toggle button -->
-                        <button class="ann-more-btn">
-                            <span class="btn-text">Read Full Notice</span>
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </button>
-                    </div>
-                </div>
-            <?php endforeach; ?>
+                        <!-- Content Column -->
+                        <div class="ann-content-block">
+                            <div class="ann-header-meta">
+                                <span class="ann-cat-badge"><?php echo htmlspecialchars($item['category']); ?></span>
+                                <?php if (!empty($item['tag'])): ?>
+                                    <span class="ann-tag-text"><i class="fa-solid fa-hashtag" style="color: var(--gold); font-size: 0.75rem;"></i> <?php echo htmlspecialchars($item['tag']); ?></span>
+                                <?php endif; ?>
+                            </div>
+                            <h3 class="ann-title"><?php echo htmlspecialchars($item['title']); ?></h3>
+                            <?php if (!empty($item['excerpt'])): ?>
+                                <p class="ann-excerpt"><?php echo htmlspecialchars($item['excerpt']); ?></p>
+                            <?php endif; ?>
 
-            <!-- Fallback No Items Card -->
-            <div class="ann-no-items" id="ann-empty">
-                <i class="fa-regular fa-folder-open"></i>
-                <h3>No Announcements</h3>
-                <p>There are no active notices or announcements under this category. Please check again later.</p>
-            </div>
+                            <!-- Expandable full text -->
+                            <div class="ann-full-text">
+                                <div class="ann-full-text-inner">
+                                    <p style="white-space: pre-line;"><?php echo htmlspecialchars($item['full_text']); ?></p>
+                                    
+                                    <!-- Attachments download list -->
+                                    <?php if (!empty($attachments)): ?>
+                                        <div class="notice-attachments-sec" style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px dashed var(--border-color);">
+                                            <h5 style="margin-bottom: 0.8rem; font-size: 0.92rem; color: var(--dark); display: flex; align-items: center; gap: 0.5rem;"><i class="fa-solid fa-paperclip" style="color: var(--red);"></i> Attached Documents & Media</h5>
+                                            <div class="notice-attachments-container">
+                                                <?php foreach ($attachments as $file): ?>
+                                                    <div class="notice-file-badge">
+                                                        <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                                            <i class="fa-solid <?php echo $file['type'] === 'pdf' ? 'fa-file-pdf' : 'fa-file-image'; ?>" style="color: var(--red); font-size: 1.1rem; flex-shrink: 0;"></i>
+                                                            <span style="font-weight: 600; color: var(--dark); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex-grow: 1;"><?php echo htmlspecialchars($file['name']); ?></span>
+                                                        </div>
+                                                        <div style="display: flex; gap: 1rem; padding-left: 1.7rem; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 0.5rem; margin-top: 0.1rem;">
+                                                            <a href="<?php echo htmlspecialchars($file['path']); ?>" target="_blank" style="color: var(--red); text-decoration: none; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; gap: 0.25rem;" title="View File"><i class="fa-regular fa-eye"></i> View</a>
+                                                            <a href="<?php echo htmlspecialchars($file['path']); ?>" download style="color: var(--red); text-decoration: none; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; gap: 0.25rem;" title="Download File"><i class="fa-solid fa-download"></i> Download</a>
+                                                        </div>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+
+                            <!-- Read More toggle button -->
+                            <button class="ann-more-btn">
+                                <span class="btn-text">Read Full Notice</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
+
+        <!-- Pagination Controls -->
+        <?php if ($total_pages > 1): ?>
+            <div class="pagination-container" style="display: flex; justify-content: center; align-items: center; gap: 0.5rem; padding: 2rem 0; margin-top: 2.5rem; flex-wrap: wrap;">
+                <?php if ($page > 1): ?>
+                    <a href="?category=<?php echo urlencode($active_filter); ?>&page=<?php echo $page - 1; ?>" class="ann-filter-btn" style="text-decoration: none; padding: 0.5rem 1.2rem; border-radius: 30px;"><i class="fa-solid fa-angle-left"></i> Previous</a>
+                <?php endif; ?>
+
+                <?php for ($p = 1; $p <= $total_pages; $p++): ?>
+                    <?php if ($p == $page): ?>
+                        <span class="ann-filter-btn active" style="padding: 0.5rem 1.2rem; border-radius: 30px;"><?php echo $p; ?></span>
+                    <?php else: ?>
+                        <a href="?category=<?php echo urlencode($active_filter); ?>&page=<?php echo $p; ?>" class="ann-filter-btn" style="text-decoration: none; padding: 0.5rem 1.2rem; border-radius: 30px;"><?php echo $p; ?></a>
+                    <?php endif; ?>
+                <?php endfor; ?>
+
+                <?php if ($page < $total_pages): ?>
+                    <a href="?category=<?php echo urlencode($active_filter); ?>&page=<?php echo $page + 1; ?>" class="ann-filter-btn" style="text-decoration: none; padding: 0.5rem 1.2rem; border-radius: 30px;">Next <i class="fa-solid fa-angle-right"></i></a>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
     </div>
 </section>
 
-<!-- Bottom newsletter CTA -->
-<!-- <section class="ann-news-sec">
-    <div class="container">
-        <div class="ann-news-card">
-            <h3>Receive Notices in Your Inbox</h3>
-            <p>Subscribe to our announcement mailing list to get real-time emails about festivals, rehearsals, meetings, and programs.</p>
-            <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed successfully!'); this.reset();">
-                <input type="email" class="news-input" placeholder="Your primary email address" required>
-                <button type="submit" class="news-submit">Subscribe Now</button>
-            </form>
-        </div>
-    </div>
-</section> -->
-
-<!-- Vanilla JS filters and accordion -->
+<!-- Vanilla JS accordion functionality -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // 1. FILTERING FUNCTIONALITY
-        const filterBtns = document.querySelectorAll('.ann-filter-btn');
-        const annCards = document.querySelectorAll('.ann-card');
-        const emptyState = document.getElementById('ann-empty');
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', function () {
-                // Toggle active style
-                filterBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-
-                const filterValue = this.getAttribute('data-filter');
-                let countVisible = 0;
-
-                annCards.forEach(card => {
-                    const cardCat = card.getAttribute('data-category');
-                    
-                    // Close expanded card if transitioning category
-                    if (card.classList.contains('expanded')) {
-                        toggleAccordion(card);
-                    }
-
-                    if (filterValue === 'all' || cardCat === filterValue) {
-                        card.classList.remove('hide');
-                        countVisible++;
-                    } else {
-                        card.classList.add('hide');
-                    }
-                });
-
-                if (countVisible === 0) {
-                    emptyState.style.display = 'block';
-                } else {
-                    emptyState.style.display = 'none';
-                }
-            });
-        });
-
-        // 2. ACCORDION EXPANSION FUNCTIONALITY
         const toggleButtons = document.querySelectorAll('.ann-more-btn');
 
         function toggleAccordion(card) {
@@ -553,12 +606,10 @@ $announcements = [
             const btnText = card.querySelector('.btn-text');
             
             if (card.classList.contains('expanded')) {
-                // Collapse
                 content.style.maxHeight = null;
                 card.classList.remove('expanded');
                 btnText.innerText = 'Read Full Notice';
             } else {
-                // Expand
                 content.style.maxHeight = content.scrollHeight + "px";
                 card.classList.add('expanded');
                 btnText.innerText = 'Collapse Notice';

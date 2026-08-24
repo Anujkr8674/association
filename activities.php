@@ -71,10 +71,10 @@ if (empty($recent_activities)) {
     }
 
     .activities-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 3.5rem 2rem;
-        justify-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2.5rem 2rem;
+        justify-content: center;
         margin-top: 2rem;
     }
 
@@ -82,76 +82,91 @@ if (empty($recent_activities)) {
         text-decoration: none;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        text-align: center;
-        width: 100%;
-        max-width: 220px;
-        transition: var(--transition);
+        background-color: var(--white);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(33, 26, 23, 0.06);
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        border: 1px solid rgba(0, 0, 0, 0.03);
+        width: calc(25% - 1.5rem);
+        min-width: 260px;
+        max-width: 280px;
+        box-sizing: border-box;
     }
 
-    .activity-circle-wrapper {
-        width: 180px;
-        height: 180px;
-        border-radius: 50%;
+    .activity-image-wrapper {
+        width: 100%;
+        height: 200px;
         overflow: hidden;
-        border: 4px solid var(--white);
-        box-shadow: 0 8px 24px rgba(33,26,23,0.12);
-        transition: var(--transition);
+        position: relative;
         background-color: var(--secondary-bg);
     }
 
-    .activity-circle-wrapper img {
+    .activity-image-wrapper img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: var(--transition-slow);
+        transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .activity-content-box {
+        padding: 1.5rem 1.25rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        border-top: 1px solid rgba(0, 0, 0, 0.02);
     }
 
     .activity-title {
-        margin-top: 1.25rem;
         font-family: var(--font-headings);
-        font-size: 1.15rem;
+        font-size: 1.12rem;
         color: var(--dark);
         font-weight: 700;
-        transition: var(--transition);
-        line-height: 1.3;
+        margin: 0;
+        line-height: 1.4;
+        transition: color 0.3s ease;
     }
 
-    .activity-card:hover .activity-circle-wrapper {
-        transform: translateY(-6px);
-        box-shadow: 0 12px 30px rgba(139, 30, 30, 0.2);
+    /* Hover effect */
+    .activity-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 16px 36px rgba(139, 30, 30, 0.12);
         border-color: var(--gold);
+        background-color: var(--red);
     }
 
-    .activity-card:hover img {
-        transform: scale(1.08);
+    .activity-card:hover .activity-image-wrapper img {
+        transform: scale(1.06);
     }
 
     .activity-card:hover .activity-title {
-        color: var(--red) !important;
+        color: var(--white) !important;
     }
 
     /* Responsive adjustments */
     @media (max-width: 991px) {
-        .activities-grid {
-            grid-template-columns: repeat(3, 1fr);
+        .activity-card {
+            width: calc(33.333% - 1.5rem);
         }
     }
 
     @media (max-width: 768px) {
-        .activities-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2.5rem 1.5rem;
+        .activity-card {
+            width: calc(50% - 1.5rem);
         }
     }
 
     @media (max-width: 480px) {
         .activities-grid {
-            grid-template-columns: 1fr;
+            max-width: 320px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .activity-circle-wrapper {
-            width: 160px;
-            height: 160px;
+        .activity-card {
+            width: 100%;
         }
     }
 </style>
@@ -176,10 +191,12 @@ if (empty($recent_activities)) {
                 }
                 ?>
                 <a href="activity-details.php?id=<?php echo $act['id']; ?>" class="activity-card">
-                    <div class="activity-circle-wrapper">
+                    <div class="activity-image-wrapper">
                         <img src="<?php echo $act_img; ?>" alt="<?php echo htmlspecialchars($act['title']); ?>" loading="lazy">
                     </div>
-                    <h3 class="activity-title"><?php echo htmlspecialchars($act['title']); ?></h3>
+                    <div class="activity-content-box">
+                        <h3 class="activity-title"><?php echo htmlspecialchars($act['title']); ?></h3>
+                    </div>
                 </a>
             <?php endforeach; ?>
         </div>

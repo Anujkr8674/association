@@ -508,31 +508,85 @@ $durga_puja_gallery = array_slice($durga_puja_gallery, 0, 6);
         padding: 6.5rem 0;
         background-color: var(--sand);
     }
-    .activity-card:hover .activity-circle-wrapper {
-        transform: translateY(-6px);
-        box-shadow: 0 12px 30px rgba(139, 30, 30, 0.2);
-        border-color: var(--gold);
+    .activity-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2.5rem 2rem;
+        justify-content: center;
+        margin-top: 3rem;
     }
-    .activity-card:hover img {
-        transform: scale(1.08);
+    .activity-card {
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--white);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(33, 26, 23, 0.06);
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        border: 1px solid rgba(0, 0, 0, 0.03);
+        width: calc(33.333% - 1.5rem);
+        min-width: 260px;
+        max-width: 280px;
+        box-sizing: border-box;
+    }
+    .activity-image-wrapper {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+        background-color: var(--secondary-bg);
+    }
+    .activity-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+    .activity-content-box {
+        padding: 1.5rem 1.25rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        border-top: 1px solid rgba(0, 0, 0, 0.02);
+    }
+    .activity-title {
+        font-family: var(--font-headings);
+        font-size: 1.12rem;
+        color: var(--dark) !important;
+        font-weight: 700;
+        margin: 0;
+        line-height: 1.4;
+        transition: color 0.3s ease;
+    }
+    .activity-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 16px 36px rgba(139, 30, 30, 0.12);
+        border-color: var(--gold);
+        background-color: var(--red);
+    }
+    .activity-card:hover .activity-image-wrapper img {
+        transform: scale(1.06);
     }
     .activity-card:hover .activity-title {
-        color: var(--red) !important;
+        color: var(--white) !important;
     }
     @media (max-width: 991px) {
-        .activity-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 2.5rem 1.5rem !important;
+        .activity-card {
+            width: calc(50% - 1.5rem);
         }
     }
     @media (max-width: 575px) {
         .activity-grid {
-            grid-template-columns: 1fr !important;
-            gap: 2.5rem 1.5rem !important;
+            max-width: 320px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .activity-circle-wrapper {
-            width: 160px !important;
-            height: 160px !important;
+        .activity-card {
+            width: 100%;
         }
     }
 
@@ -906,8 +960,8 @@ $durga_puja_gallery = array_slice($durga_puja_gallery, 0, 6);
     }
 
     .faq-item.active {
+        border-color: var(--gold);
         box-shadow: var(--shadow-sm);
-        border-color: rgba(201, 154, 46, 0.3);
     }
 
     .faq-question {
@@ -923,18 +977,28 @@ $durga_puja_gallery = array_slice($durga_puja_gallery, 0, 6);
     }
 
     .faq-question:hover {
-        color: var(--red);
+        background-color: var(--red);
+        color: var(--white);
+    }
+
+    .faq-question:hover .faq-icon {
+        color: var(--white);
     }
 
     .faq-item.active .faq-question {
-        color: var(--red);
-        border-bottom: 1px solid var(--border-color);
+        background-color: var(--red);
+        color: var(--white);
+        border-bottom: 1px solid var(--gold);
     }
 
     .faq-icon {
         color: var(--gold);
         font-size: 0.95rem;
         transition: var(--transition);
+    }
+
+    .faq-item.active .faq-icon {
+        color: var(--white) !important;
     }
 
     .faq-answer {
@@ -947,7 +1011,8 @@ $durga_puja_gallery = array_slice($durga_puja_gallery, 0, 6);
         padding: 1.5rem 2rem;
         font-size: 0.95rem;
         line-height: 1.7;
-        color: var(--text-muted);
+        color: var(--dark);
+        background-color: var(--primary-bg);
     }
 
     /* ==========================================================================
@@ -1343,44 +1408,59 @@ $durga_puja_gallery = array_slice($durga_puja_gallery, 0, 6);
     }
 </style>
 
+<?php
+$durgapuja_hero_slides = [
+    [
+        'image' => 'https://images.unsplash.com/photo-1561376399-5ef8d0859942?q=80&w=1600',
+        'title' => 'Durga Puja',
+        'subtitle' => 'Celebrating Faith, Culture, Tradition & Togetherness'
+    ],
+    [
+        'image' => 'https://images.unsplash.com/photo-1605152276897-4f618f831968?q=80&w=1600',
+        'title' => 'Durga Puja',
+        'subtitle' => 'Where Faith Meets Culture, Tradition Meets Celebration'
+    ],
+    [
+        'image' => 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1600',
+        'title' => 'Durga Puja',
+        'subtitle' => 'Celebrating Devotion, Embracing Tradition, Together as One'
+    ]
+];
+
+try {
+    if (isset($pdo)) {
+        $stmt_hero = $pdo->query("SELECT * FROM `hero_slides` WHERE `page` = 'durga-puja' ORDER BY `sort_order` ASC");
+        $db_slides = $stmt_hero->fetchAll(PDO::FETCH_ASSOC);
+        if (!empty($db_slides)) {
+            $durgapuja_hero_slides = [];
+            foreach ($db_slides as $ds) {
+                $durgapuja_hero_slides[] = [
+                    'image' => (strpos($ds['image_path'], 'http') === 0) ? $ds['image_path'] : $ds['image_path'],
+                    'title' => $ds['title'],
+                    'subtitle' => $ds['subtitle']
+                ];
+            }
+        }
+    }
+} catch (PDOException $e) {
+    // Fallback to static defaults
+}
+?>
+
 <!-- 1. DURGA PUJA HERO SECTION -->
 <section class="hero-carousel" id="hero">
-    <!-- Slide 1 -->
-    <div class="carousel-slide active" style="background-image: url('https://images.unsplash.com/photo-1561376399-5ef8d0859942?q=80&w=1600');">
-        <div class="hero-content">
-            <h1 class="hero-title">Durga Puja</h1>
-            <span class="hero-subtitle">Celebrating Faith, Culture, Tradition & Togetherness</span>
-            <!-- <p class="hero-desc">Experience the spirit of Bengal through devotion, culture, celebration and community.</p> -->
-            <div class="hero-buttons">
-                <a href="#puja-info" class="btn btn-white">Explore Puja</a>
-                <a href="join-us.php" class="btn btn-hero-secondary">Join Our Celebration</a>
+    <?php foreach ($durgapuja_hero_slides as $index => $slide): ?>
+        <div class="carousel-slide <?php echo $index === 0 ? 'active' : ''; ?>" style="background-image: url('<?php echo htmlspecialchars($slide['image']); ?>');">
+            <div class="hero-content">
+                <h1 class="hero-title"><?php echo htmlspecialchars($slide['title']); ?></h1>
+                <span class="hero-subtitle"><?php echo htmlspecialchars($slide['subtitle']); ?></span>
+                <div class="hero-buttons">
+                    <a href="#puja-info" class="btn btn-white">Explore Puja</a>
+                    <a href="join-us.php" class="btn btn-hero-secondary">Join Our Celebration</a>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- Slide 2 -->
-    <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1605152276897-4f618f831968?q=80&w=1600');">
-        <div class="hero-content">
-            <h1 class="hero-title">Durga Puja</h1>
-            <span class="hero-subtitle">Where Faith Meets Culture, Tradition Meets Celebration</span>
-            <!-- <p class="hero-desc">Experience the spirit of Bengal through devotion, culture, celebration and community.</p> -->
-            <div class="hero-buttons">
-                <a href="#puja-info" class="btn btn-white">Explore Puja</a>
-                <a href="join-us.php" class="btn btn-hero-secondary">Join Our Celebration</a>
-            </div>
-        </div>
-    </div>
-    <!-- Slide 3 -->
-    <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1600');">
-        <div class="hero-content">
-            <h1 class="hero-title">Durga Puja</h1>
-            <span class="hero-subtitle">Celebrating Devotion, Embracing Tradition, Together as One</span>
-            <!-- <p class="hero-desc">Experience the spirit of Bengal through devotion, culture, celebration and community.</p> -->
-            <div class="hero-buttons">
-                <a href="#puja-info" class="btn btn-white">Explore Puja</a>
-                <a href="join-us.php" class="btn btn-hero-secondary">Join Our Celebration</a>
-            </div>
-        </div>
-    </div>
+    <?php endforeach; ?>
 
     <!-- Navigation buttons -->
     <button class="carousel-btn carousel-btn-prev" aria-label="Previous Slide"><i class="fa-solid fa-chevron-left"></i></button>
@@ -1388,9 +1468,9 @@ $durga_puja_gallery = array_slice($durga_puja_gallery, 0, 6);
 
     <!-- Pagination dots -->
     <div class="carousel-dots">
-        <button class="carousel-dot active" data-slide="0" aria-label="Go to slide 1"></button>
-        <button class="carousel-dot" data-slide="1" aria-label="Go to slide 2"></button>
-        <button class="carousel-dot" data-slide="2" aria-label="Go to slide 3"></button>
+        <?php foreach ($durgapuja_hero_slides as $index => $slide): ?>
+            <button class="carousel-dot <?php echo $index === 0 ? 'active' : ''; ?>" data-slide="<?php echo $index; ?>" aria-label="Go to slide <?php echo $index + 1; ?>"></button>
+        <?php endforeach; ?>
     </div>
 </section>
 
@@ -1490,7 +1570,7 @@ $durga_puja_gallery = array_slice($durga_puja_gallery, 0, 6);
             </div>
         </div>
 
-        <div class="activity-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.5rem 2rem; justify-items: center; margin-top: 3rem;">
+        <div class="activity-grid">
             <?php foreach ($recent_activities as $act): ?>
                 <?php 
                 $act_img = htmlspecialchars($act['image']);
@@ -1498,11 +1578,13 @@ $durga_puja_gallery = array_slice($durga_puja_gallery, 0, 6);
                     $act_img = $act_img; // absolute path to file in project root
                 }
                 ?>
-                <a href="activity-details.php?id=<?php echo $act['id']; ?>" class="activity-card" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; max-width: 220px; transition: var(--transition);">
-                    <div class="activity-circle-wrapper" style="width: 180px; height: 180px; border-radius: 50%; overflow: hidden; border: 4px solid var(--white); box-shadow: 0 8px 24px rgba(33,26,23,0.12); transition: var(--transition); background-color: var(--secondary-bg);">
-                        <img src="<?php echo $act_img; ?>" alt="<?php echo htmlspecialchars($act['title']); ?>" style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition-slow);">
+                <a href="activity-details.php?id=<?php echo $act['id']; ?>" class="activity-card">
+                    <div class="activity-image-wrapper">
+                        <img src="<?php echo $act_img; ?>" alt="<?php echo htmlspecialchars($act['title']); ?>" loading="lazy">
                     </div>
-                    <h3 class="activity-title" style="margin-top: 1.25rem; font-family: var(--font-headings); font-size: 1.15rem; color: var(--dark); font-weight: 700; transition: var(--transition);"><?php echo htmlspecialchars($act['title']); ?></h3>
+                    <div class="activity-content-box">
+                        <h3 class="activity-title"><?php echo htmlspecialchars($act['title']); ?></h3>
+                    </div>
                 </a>
             <?php endforeach; ?>
         </div>

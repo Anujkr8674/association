@@ -37,12 +37,38 @@ $page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
             --transition: all 0.3s ease;
         }
 
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--cream);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #a51c30, #d9a441);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #d9a441, #a51c30);
+        }
+        .dash-sidebar::-webkit-scrollbar-track {
+            background: var(--dark) !important;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            scrollbar-width: thin;
+            scrollbar-color: #a51c30 var(--cream);
         }
 
+        .dash-sidebar {
+            scrollbar-color: #a51c30 var(--dark) !important;
+        }
+
+        /* scrool bar end */
         body {
             font-family: 'Outfit', sans-serif;
             background-color: var(--cream);
@@ -65,7 +91,7 @@ $page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
             flex-direction: column;
             gap: 2rem;
             border-right: 1px solid rgba(255,255,255,0.05);
-            width: 240px;
+            width: 300px;
             height: 100vh;
             position: fixed;
             top: 0;
@@ -76,29 +102,36 @@ $page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
 
         .sidebar-brand {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 0.75rem;
-            padding-bottom: 1.5rem;
+            justify-content: center;
+            text-align: center;
+            gap: 0.85rem;
+            padding-bottom: 1.75rem;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .brand-logo {
-            font-size: 1.8rem;
-            color: var(--gold);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .brand-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.15rem;
-            font-weight: 700;
-            line-height: 1.2;
+        .brand-logo img {
+            height: 64px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
         }
 
         .brand-subtitle {
-            font-size: 0.6rem;
+            font-size: 0.75rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
             color: var(--gold);
+            margin: 0;
+            display: block;
         }
 
         .sidebar-menu {
@@ -162,8 +195,8 @@ $page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
 
         /* Main Workspace Content */
         .dash-main {
-            margin-left: 240px;
-            width: calc(100% - 240px);
+            margin-left: 300px;
+            width: calc(100% - 300px);
             padding: 2.5rem 3rem;
             min-height: 100vh;
         }
@@ -206,7 +239,7 @@ $page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
         /* Statistics Row widgets */
         .stats-row {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.8rem;
             margin-bottom: 3rem;
         }
@@ -214,14 +247,12 @@ $page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
         .stat-card {
             background-color: var(--white);
             border-radius: 12px;
-            padding: 1.5rem;
+            padding: 1.25rem 1.5rem;
             box-shadow: 0 4px 15px rgba(33, 26, 23, 0.03);
             border: 1px solid var(--border);
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-decoration: none;
-            color: inherit;
+            flex-direction: column;
+            gap: 0.85rem;
             transition: var(--transition);
         }
 
@@ -229,6 +260,44 @@ $page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(33, 26, 23, 0.08);
             border-color: var(--gold);
+        }
+
+        .stat-card-main {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: inherit;
+            width: 100%;
+        }
+
+        .stat-card-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            border-top: 1px solid rgba(33, 26, 23, 0.06);
+            padding-top: 0.85rem;
+            width: 100%;
+        }
+
+        .stat-badge {
+            background-color: var(--sand);
+            border: 1px solid var(--border);
+            color: var(--dark);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .stat-badge:hover {
+            background-color: var(--red);
+            color: var(--white);
+            border-color: var(--red);
         }
 
         .stat-info {
@@ -264,6 +333,17 @@ $page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
         .stat-events { background-color: #FFF2F2; color: var(--red); }
         .stat-blogs { background-color: #FFFBF0; color: var(--gold); }
         .stat-gallery { background-color: #F0F9FF; color: #0284C7; }
+        .stat-activities { background-color: #EEF2FF; color: #4F46E5; }
+        .stat-videos { background-color: #FAF5FF; color: #9333EA; }
+        .stat-hero { background-color: #FFF1F2; color: #E11D48; }
+        .stat-messages { background-color: #ECFDF5; color: #059669; }
+        .stat-ads { background-color: #FFF7ED; color: #EA580C; }
+        .stat-notices { background-color: #F8FAFC; color: #475569; }
+        .stat-committee { background-color: #FEF3C7; color: #D97706; }
+        .stat-members { background-color: #E0F2FE; color: #0369A1; }
+        .stat-partners { background-color: #F0FDF4; color: #16A34A; }
+        .stat-documents { background-color: #F5F3FF; color: #7C3AED; }
+        .stat-key-messages { background-color: #FFF0F6; color: #D6336C; }
 
         /* Panel Content Area styling */
         .panel-card {
@@ -763,8 +843,8 @@ $page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
             .dash-sidebar {
                 position: fixed;
                 top: 0;
-                left: -240px;
-                width: 240px;
+                left: -300px;
+                width: 300px;
                 height: 100vh;
                 z-index: 1000;
                 transition: left 0.3s ease;
@@ -968,11 +1048,8 @@ $page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
         <!-- Sidebar Navigation -->
         <aside class="dash-sidebar" id="admin-sidebar">
             <div class="sidebar-brand">
-                <div class="brand-logo"><i class="fa-solid fa-dharmachakra"></i></div>
-                <div>
-                    <h2 class="brand-title">BCA Noida</h2>
-                    <span class="brand-subtitle">Admin Dashboard</span>
-                </div>
+                <div class="brand-logo"><img src="../images/logo_new.png" alt="BCA Logo"></div>
+                <span class="brand-subtitle">Admin Dashboard</span>
             </div>
 
             <ul class="sidebar-menu">
@@ -1025,10 +1102,45 @@ $page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
                     </a>
                 </li>
                 <li>
+                    <a href="hero_settings.php" class="menu-link <?php echo ($current_page === 'hero_settings.php' || $current_page === 'hero_slide_edit.php') ? 'active' : ''; ?>">
+                        <i class="fa-solid fa-photo-film"></i>
+                        <span>Hero Sections</span>
+                    </a>
+                </li>
+                <li>
                     <a href="contact_messages.php" class="menu-link <?php echo $current_page === 'contact_messages.php' ? 'active' : ''; ?>">
                         <i class="fa-solid fa-envelope"></i>
                         <span>Contact Messages</span>
                     </a>
+                </li>
+                <li>
+                    <a href="broadcast_ads.php" class="menu-link <?php echo ($current_page === 'broadcast_ads.php' || $current_page === 'broadcast_ad_edit.php') ? 'active' : ''; ?>">
+                        <i class="fa-solid fa-rectangle-ad"></i>
+                        <span>Broadcast Ads</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" class="menu-link menu-dropdown-toggle <?php echo (strpos($current_page, 'notice') !== false && $current_page !== 'contact_messages.php') ? 'active open' : ''; ?>" id="notices-dropdown-toggle">
+                        <div style="display: flex; align-items: center; gap: 0.85rem;">
+                            <i class="fa-solid fa-bullhorn"></i>
+                            <span>Notices / Bulletins</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </a>
+                    <ul class="sidebar-menu-dropdown <?php echo (strpos($current_page, 'notice') !== false && $current_page !== 'contact_messages.php') ? 'show' : ''; ?>" id="notices-dropdown-menu">
+                        <li>
+                            <a href="notices.php" class="menu-link <?php echo ($current_page === 'notices.php' || $current_page === 'notice_edit.php') ? 'active' : ''; ?>" style="padding-left: 2.2rem; font-size: 0.85rem; opacity: 0.9;">
+                                <i class="fa-solid fa-list" style="font-size: 0.75rem;"></i>
+                                <span>Manage Notices</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="notice_categories.php" class="menu-link <?php echo $current_page === 'notice_categories.php' ? 'active' : ''; ?>" style="padding-left: 2.2rem; font-size: 0.85rem; opacity: 0.9;">
+                                <i class="fa-solid fa-tags" style="font-size: 0.75rem;"></i>
+                                <span>Notice Categories</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a href="javascript:void(0)" class="menu-link menu-dropdown-toggle <?php echo (strpos($current_page, 'committee') !== false) ? 'active open' : ''; ?>" id="committee-dropdown-toggle">
@@ -1199,6 +1311,32 @@ $page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
             </div>
         </aside>
 
+        <style>
+            .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+    background: #f5f5f5;
+    transform: translateX(-2px);
+}
+
+.back-btn i {
+    font-size: 14px;
+}
+        </style>
+
         <!-- Main Workspace -->
         <main class="dash-main">
             <!-- Header section -->
@@ -1207,8 +1345,12 @@ $page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
                     <h1><?php echo htmlspecialchars($page_title); ?></h1>
                     <p>Welcome back, manage your site content dynamically below.</p>
                 </div>
-                <div class="user-pill">
+                <button type="button" class="back-btn" onclick="history.back()">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back</span>
+                </button>
+                <!-- <div class="user-pill">
                     <i class="fa-solid fa-user-shield"></i>
                     <span>Hello, <?php echo htmlspecialchars($_SESSION['admin_user']); ?></span>
-                </div>
+                </div> -->
             </header>

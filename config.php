@@ -471,6 +471,26 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS `contact_messages` (
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB");
 
+// 19. Create notice_categories table
+$pdo->exec("CREATE TABLE IF NOT EXISTS `notice_categories` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(255) UNIQUE NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB");
+
+// 20. Create notices table
+$pdo->exec("CREATE TABLE IF NOT EXISTS `notices` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `title` VARCHAR(255) NOT NULL,
+    `category` VARCHAR(255) NOT NULL,
+    `tag` VARCHAR(255) DEFAULT NULL,
+    `excerpt` TEXT DEFAULT NULL,
+    `full_text` TEXT NOT NULL,
+    `date` DATE NOT NULL,
+    `attachments` TEXT DEFAULT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB");
+
 // 7. Seed Admin User if not exists
 $admin_user = isset($_ENV['ADMIN_USER']) ? $_ENV['ADMIN_USER'] : 'Admin';
 $admin_pass = isset($_ENV['ADMIN_PASS']) ? $_ENV['ADMIN_PASS'] : 'Admin#0000';
@@ -567,5 +587,105 @@ if ($galleryCount == 0) {
     foreach ($default_gallery as $gl) {
         $insertGall->execute([$gl['title'], $gl['image'], $gl['category']]);
     }
+}
+
+// 21. Create Hero Slides table
+$pdo->exec("CREATE TABLE IF NOT EXISTS `hero_slides` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `page` VARCHAR(50) NOT NULL,
+    `title` VARCHAR(255) NOT NULL,
+    `subtitle` VARCHAR(255) NOT NULL,
+    `image_path` VARCHAR(255) NOT NULL,
+    `sort_order` INT DEFAULT 0,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB");
+
+// Seed default hero slides if empty
+$heroSlidesCount = $pdo->query("SELECT COUNT(*) FROM `hero_slides`")->fetchColumn();
+if ($heroSlidesCount == 0) {
+    $default_hero_slides = [
+        // Homepage slides
+        [
+            'page' => 'home',
+            'title' => 'Durga Puja Celebrations',
+            'subtitle' => 'Celebrating Culture, Preserving Tradition, Connecting Community',
+            'image_path' => 'https://images.unsplash.com/photo-1561376399-5ef8d0859942?q=80&w=1600',
+            'sort_order' => 1
+        ],
+        [
+            'page' => 'home',
+            'title' => 'Vibrant Cultural Programs',
+            'subtitle' => 'Nurturing Art, Music, Dance, and Literature Across Generations',
+            'image_path' => 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1600',
+            'sort_order' => 2
+        ],
+        [
+            'page' => 'home',
+            'title' => 'United Community Gathering',
+            'subtitle' => 'Fostering Bonding, Togetherness, and Social Development',
+            'image_path' => 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1600',
+            'sort_order' => 3
+        ],
+        // Durga Puja page slides
+        [
+            'page' => 'durga-puja',
+            'title' => 'Durga Puja',
+            'subtitle' => 'Celebrating Faith, Culture, Tradition & Togetherness',
+            'image_path' => 'https://images.unsplash.com/photo-1561376399-5ef8d0859942?q=80&w=1600',
+            'sort_order' => 1
+        ],
+        [
+            'page' => 'durga-puja',
+            'title' => 'Durga Puja',
+            'subtitle' => 'Where Faith Meets Culture, Tradition Meets Celebration',
+            'image_path' => 'https://images.unsplash.com/photo-1605152276897-4f618f831968?q=80&w=1600',
+            'sort_order' => 2
+        ],
+        [
+            'page' => 'durga-puja',
+            'title' => 'Durga Puja',
+            'subtitle' => 'Celebrating Devotion, Embracing Tradition, Together as One',
+            'image_path' => 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1600',
+            'sort_order' => 3
+        ]
+    ];
+
+    $insertHeroSlide = $pdo->prepare("INSERT INTO `hero_slides` (`page`, `title`, `subtitle`, `image_path`, `sort_order`) VALUES (?, ?, ?, ?, ?)");
+    foreach ($default_hero_slides as $hs) {
+        $insertHeroSlide->execute([
+            $hs['page'],
+            $hs['title'],
+            $hs['subtitle'],
+            $hs['image_path'],
+            $hs['sort_order']
+        ]);
+    }
+}
+
+// 9. Create Broadcast Ads table
+$pdo->exec("CREATE TABLE IF NOT EXISTS `broadcast_ads` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `title` VARCHAR(255) NOT NULL,
+    `description` TEXT NOT NULL,
+    `images` TEXT NOT NULL,
+    `status` TINYINT DEFAULT 0,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB");
+
+// Seed default broadcast ad if empty
+$adCount = $pdo->query("SELECT COUNT(*) FROM `broadcast_ads`")->fetchColumn();
+if ($adCount == 0) {
+    $default_images = json_encode([
+        'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=600',
+        'https://images.unsplash.com/photo-1502134249126-9f3755a50d78?q=80&w=600',
+        'https://images.unsplash.com/photo-1536304997881-a372c179924b?q=80&w=600'
+    ]);
+    $stmt = $pdo->prepare("INSERT INTO `broadcast_ads` (`title`, `description`, `images`, `status`) VALUES (?, ?, ?, ?)");
+    $stmt->execute([
+        'Grand Durga Puja Celebrations 2026',
+        "Join us for 5 days of absolute joy, cultural performances, and traditional Sindur Khela.\nWe welcome all families to Noida Block B park.",
+        $default_images,
+        1
+    ]);
 }
 ?>

@@ -855,6 +855,141 @@ switch ($act) {
         }
         break;
 
+    case 'delete_video':
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        if ($id > 0) {
+            try {
+                $stmt = $pdo->prepare("DELETE FROM `testimonial_videos` WHERE `id` = ?");
+                $stmt->execute([$id]);
+                header('Location: videos.php?success=deleted');
+                exit;
+            } catch (PDOException $e) {
+                die("Error deleting video: " . $e->getMessage());
+            }
+        }
+        header('Location: videos.php?error=invalid_id');
+        exit;
+
+    case 'save_hero_slide':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            header('Content-Type: application/json');
+
+            $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+            $page = isset($_POST['page']) ? trim($_POST['page']) : 'home';
+            $title = isset($_POST['title']) ? trim($_POST['title']) : '';
+            $subtitle = isset($_POST['subtitle']) ? trim($_POST['subtitle']) : '';
+            $sort_order = isset($_POST['sort_order']) ? intval($_POST['sort_order']) : 0;
+
+            if (empty($title) || empty($subtitle)) {
+                echo json_encode(['status' => 'error', 'message' => 'Title and Subtitle are required.']);
+                exit;
+            }
+
+            // Create target folder automatically if not present
+            $upload_dir = __DIR__ . '/../uploads/hero-section/';
+            if (!is_dir($upload_dir)) {
+                mkdir($upload_dir, 0777, true);
+            }
+
+            $db_path = '';
+
+            // Handle file upload
+            if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
+                $tmp_name = $_FILES['image_file']['tmp_name'];
+                $orig_name = basename($_FILES['image_file']['name']);
+                $ext = strtolower(pathinfo($orig_name, PATHINFO_EXTENSION));
+                
+                // Validate file extension
+                $allowed_exts = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+                if (!in_array($ext, $allowed_exts)) {
+                    echo json_encode(['status' => 'error', 'message' => 'Invalid file extension. Only JPG, JPEG, PNG, WEBP, and GIF are allowed.']);
+                    exit;
+                }
+
+                $new_filename = uniqid('hero_', true) . '.' . $ext;
+                $dest = $upload_dir . $new_filename;
+
+                if (move_uploaded_file($tmp_name, $dest)) {
+                    $db_path = 'uploads/hero-section/' . $new_filename;
+                    
+                    // If editing, delete the old local file
+                    if ($id > 0) {
+                        try {
+                            $stmt = $pdo->prepare("SELECT `image_path` FROM `hero_slides` WHERE `id` = ?");
+                            $stmt->execute([$id]);
+                            $old_img = $stmt->fetchColumn();
+                            if ($old_img && strpos($old_img, 'uploads/hero-section/') === 0) {
+                                $old_file_path = __DIR__ . '/../' . $old_img;
+                                if (file_exists($old_file_path)) {
+                                    @unlink($old_file_path);
+                                }
+                            }
+                        } catch (PDOException $e) {
+                            // Ignore query failures
+                        }
+                    }
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Failed to move uploaded file.']);
+                    exit;
+                }
+            }
+
+            try {
+                if ($id > 0) {
+                    // Update
+                    if (!empty($db_path)) {
+                        $stmt = $pdo->prepare("UPDATE `hero_slides` SET `page` = ?, `title` = ?, `subtitle` = ?, `image_path` = ?, `sort_order` = ? WHERE `id` = ?");
+                        $stmt->execute([$page, $title, $subtitle, $db_path, $sort_order, $id]);
+                    } else {
+                        $stmt = $pdo->prepare("UPDATE `hero_slides` SET `page` = ?, `title` = ?, `subtitle` = ?, `sort_order` = ? WHERE `id` = ?");
+                        $stmt->execute([$page, $title, $subtitle, $sort_order, $id]);
+                    }
+                    echo json_encode(['status' => 'success', 'message' => 'Hero slide updated successfully.']);
+                    exit;
+                } else {
+                    // Insert
+                    if (empty($db_path)) {
+                        echo json_encode(['status' => 'error', 'message' => 'An image is required for a new slide.']);
+                        exit;
+                    }
+                    $stmt = $pdo->prepare("INSERT INTO `hero_slides` (`page`, `title`, `subtitle`, `image_path`, `sort_order`) VALUES (?, ?, ?, ?, ?)");
+                    $stmt->execute([$page, $title, $subtitle, $db_path, $sort_order]);
+                    echo json_encode(['status' => 'success', 'message' => 'Hero slide created successfully.']);
+                    exit;
+                }
+            } catch (PDOException $e) {
+                echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
+                exit;
+            }
+        }
+        break;
+
+    case 'delete_hero_slide':
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        if ($id > 0) {
+            try {
+                // Delete physical file first
+                $stmt = $pdo->prepare("SELECT `image_path` FROM `hero_slides` WHERE `id` = ?");
+                $stmt->execute([$id]);
+                $old_img = $stmt->fetchColumn();
+                if ($old_img && strpos($old_img, 'uploads/hero-section/') === 0) {
+                    $old_file_path = __DIR__ . '/../' . $old_img;
+                    if (file_exists($old_file_path)) {
+                        @unlink($old_file_path);
+                    }
+                }
+
+                $stmt = $pdo->prepare("DELETE FROM `hero_slides` WHERE `id` = ?");
+                $stmt->execute([$id]);
+                header('Location: hero_settings.php?success=deleted');
+                exit;
+            } catch (PDOException $e) {
+                die("Error deleting hero slide: " . $e->getMessage());
+            }
+        }
+        header('Location: hero_settings.php');
+        exit;
+
     case 'save_committee_member':
         $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
         $name = isset($_POST['name']) ? trim($_POST['name']) : '';
@@ -1561,6 +1696,309 @@ switch ($act) {
                 exit;
             } catch (PDOException $e) {
                 die("Error deleting contact message: " . $e->getMessage());
+            }
+        }
+        break;
+
+    case 'save_notice_category':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = isset($_POST['name']) ? trim($_POST['name']) : '';
+            if (!empty($name)) {
+                try {
+                    $stmt = $pdo->prepare("INSERT IGNORE INTO `notice_categories` (`name`) VALUES (?)");
+                    $stmt->execute([$name]);
+                    header('Location: notice_categories.php?success=category_added');
+                    exit;
+                } catch (PDOException $e) {
+                    die("Error saving notice category: " . $e->getMessage());
+                }
+            }
+        }
+        header('Location: notice_categories.php');
+        exit;
+
+    case 'update_notice_category':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+            $name = isset($_POST['name']) ? trim($_POST['name']) : '';
+            if ($id > 0 && !empty($name)) {
+                try {
+                    $stmt = $pdo->prepare("UPDATE `notice_categories` SET `name` = ? WHERE `id` = ?");
+                    $stmt->execute([$name, $id]);
+                    header('Location: notice_categories.php?success=category_updated');
+                    exit;
+                } catch (PDOException $e) {
+                    die("Error updating notice category: " . $e->getMessage());
+                }
+            }
+        }
+        header('Location: notice_categories.php');
+        exit;
+
+    case 'delete_notice_category':
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        if ($id > 0) {
+            try {
+                $stmt = $pdo->prepare("DELETE FROM `notice_categories` WHERE `id` = ?");
+                $stmt->execute([$id]);
+                header('Location: notice_categories.php?success=category_deleted');
+                exit;
+            } catch (PDOException $e) {
+                die("Error deleting notice category: " . $e->getMessage());
+            }
+        }
+        header('Location: notice_categories.php');
+        exit;
+
+    case 'delete_notice':
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        if ($id > 0) {
+            try {
+                // Delete attachments physically if needed, or just let DB record be deleted
+                $stmt = $pdo->prepare("SELECT `attachments` FROM `notices` WHERE `id` = ?");
+                $stmt->execute([$id]);
+                $notice = $stmt->fetch(PDO::FETCH_ASSOC);
+                if ($notice && !empty($notice['attachments'])) {
+                    $attachments = json_decode($notice['attachments'], true);
+                    if (is_array($attachments)) {
+                        foreach ($attachments as $file) {
+                            $file_path = __DIR__ . '/../' . $file['path'];
+                            if (is_file($file_path)) {
+                                unlink($file_path);
+                            }
+                        }
+                    }
+                }
+
+                $stmt = $pdo->prepare("DELETE FROM `notices` WHERE `id` = ?");
+                $stmt->execute([$id]);
+                header('Location: notices.php?success=deleted');
+                exit;
+            } catch (PDOException $e) {
+                die("Error deleting notice: " . $e->getMessage());
+            }
+        }
+        header('Location: notices.php');
+        exit;
+
+    case 'save_notice':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            header('Content-Type: application/json');
+            
+            $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+            $title = isset($_POST['title']) ? trim($_POST['title']) : '';
+            $category = isset($_POST['category']) ? trim($_POST['category']) : '';
+            $tag = isset($_POST['tag']) ? trim($_POST['tag']) : '';
+            $date = isset($_POST['date']) ? trim($_POST['date']) : '';
+            $excerpt = isset($_POST['excerpt']) ? trim($_POST['excerpt']) : '';
+            $full_text = isset($_POST['full_text']) ? trim($_POST['full_text']) : '';
+
+            if (empty($title) || empty($category) || empty($full_text) || empty($date)) {
+                echo json_encode(['status' => 'error', 'message' => 'Please fill in all required fields (Title, Category, Date, Full Content).']);
+                exit;
+            }
+
+            // Set up upload directory
+            $upload_dir = __DIR__ . '/../uploads/notice/';
+            if (!is_dir($upload_dir)) {
+                mkdir($upload_dir, 0777, true);
+            }
+
+            // Retrieve kept attachments
+            $attachments = [];
+            if (isset($_POST['kept_attachments']) && is_array($_POST['kept_attachments'])) {
+                foreach ($_POST['kept_attachments'] as $kept) {
+                    $decoded = json_decode($kept, true);
+                    if ($decoded && isset($decoded['path'])) {
+                        $attachments[] = $decoded;
+                    }
+                }
+            }
+
+            // Handle new file uploads
+            if (isset($_FILES['attachments']) && is_array($_FILES['attachments']['name'])) {
+                $file_count = count($_FILES['attachments']['name']);
+                for ($i = 0; $i < $file_count; $i++) {
+                    if ($_FILES['attachments']['error'][$i] === UPLOAD_ERR_OK) {
+                        $tmp_name = $_FILES['attachments']['tmp_name'][$i];
+                        $orig_name = basename($_FILES['attachments']['name'][$i]);
+                        $ext = strtolower(pathinfo($orig_name, PATHINFO_EXTENSION));
+                        
+                        // Sanitize filename
+                        $safe_orig_name = preg_replace("/[^a-zA-Z0-9_\.-]/", "_", pathinfo($orig_name, PATHINFO_FILENAME));
+                        $new_filename = uniqid('notice_', true) . '_' . $safe_orig_name . '.' . $ext;
+                        $dest = $upload_dir . $new_filename;
+
+                        if (move_uploaded_file($tmp_name, $dest)) {
+                            $attachments[] = [
+                                'name' => $orig_name,
+                                'path' => 'uploads/notice/' . $new_filename,
+                                'type' => ($ext === 'pdf' ? 'pdf' : 'image')
+                            ];
+                        }
+                    }
+                }
+            }
+
+            $attachments_json = json_encode($attachments);
+
+            try {
+                if ($id > 0) {
+                    // Update
+                    $stmt = $pdo->prepare("UPDATE `notices` SET `title` = ?, `category` = ?, `tag` = ?, `date` = ?, `excerpt` = ?, `full_text` = ?, `attachments` = ? WHERE `id` = ?");
+                    $stmt->execute([$title, $category, $tag, $date, $excerpt, $full_text, $attachments_json, $id]);
+                    echo json_encode(['status' => 'success', 'message' => 'Notice updated successfully.']);
+                    exit;
+                } else {
+                    // Insert
+                    $stmt = $pdo->prepare("INSERT INTO `notices` (`title`, `category`, `tag`, `date`, `excerpt`, `full_text`, `attachments`) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->execute([$title, $category, $tag, $date, $excerpt, $full_text, $attachments_json]);
+                    echo json_encode(['status' => 'success', 'message' => 'Notice created successfully.']);
+                    exit;
+                }
+            } catch (PDOException $e) {
+                echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
+                exit;
+            }
+        }
+        break;
+
+    case 'delete_broadcast_ad':
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        if ($id > 0) {
+            try {
+                $stmt = $pdo->prepare("SELECT `images` FROM `broadcast_ads` WHERE `id` = ?");
+                $stmt->execute([$id]);
+                $ad = $stmt->fetch(PDO::FETCH_ASSOC);
+                if ($ad && !empty($ad['images'])) {
+                    $images = json_decode($ad['images'], true);
+                    if (is_array($images)) {
+                        foreach ($images as $img) {
+                            if (strpos($img, 'http') !== 0) {
+                                $file_path = __DIR__ . '/../' . $img;
+                                if (is_file($file_path)) {
+                                    unlink($file_path);
+                                }
+                            }
+                        }
+                    }
+                }
+                $stmt = $pdo->prepare("DELETE FROM `broadcast_ads` WHERE `id` = ?");
+                $stmt->execute([$id]);
+                header('Location: broadcast_ads.php?success=deleted');
+                exit;
+            } catch (PDOException $e) {
+                die("Error deleting broadcast ad: " . $e->getMessage());
+            }
+        }
+        header('Location: broadcast_ads.php?error=invalid_id');
+        exit;
+
+    case 'toggle_broadcast_ad_status':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            header('Content-Type: application/json');
+            $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+            $status = isset($_POST['status']) ? intval($_POST['status']) : 0;
+            if ($id > 0) {
+                try {
+                    if ($status === 1) {
+                        // Turn off all other ads first
+                        $pdo->query("UPDATE `broadcast_ads` SET `status` = 0");
+                    }
+                    $stmt = $pdo->prepare("UPDATE `broadcast_ads` SET `status` = ? WHERE `id` = ?");
+                    $stmt->execute([$status, $id]);
+                    echo json_encode(['status' => 'success', 'message' => 'Status updated successfully.']);
+                    exit;
+                } catch (PDOException $e) {
+                    echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
+                    exit;
+                }
+            }
+            echo json_encode(['status' => 'error', 'message' => 'Invalid parameters.']);
+            exit;
+        }
+        break;
+
+    case 'save_broadcast_ad':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            header('Content-Type: application/json');
+            
+            $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+            $title = isset($_POST['title']) ? trim($_POST['title']) : '';
+            $description = isset($_POST['description']) ? trim($_POST['description']) : '';
+            $status = isset($_POST['status']) ? intval($_POST['status']) : 0;
+
+            if (empty($title) || empty($description)) {
+                echo json_encode(['status' => 'error', 'message' => 'Title and Description are required.']);
+                exit;
+            }
+
+            // Set up upload directory
+            $upload_dir = __DIR__ . '/../uploads/broadcast/';
+            if (!is_dir($upload_dir)) {
+                mkdir($upload_dir, 0777, true);
+            }
+
+            // Kept images list (for edits)
+            $images = [];
+            if (isset($_POST['kept_images']) && is_array($_POST['kept_images'])) {
+                foreach ($_POST['kept_images'] as $kept) {
+                    if (!empty($kept)) {
+                        $images[] = $kept;
+                    }
+                }
+            }
+
+            // Handle new image uploads (max 3 images total)
+            if (isset($_FILES['images']) && is_array($_FILES['images']['name'])) {
+                $file_count = count($_FILES['images']['name']);
+                for ($i = 0; $i < $file_count; $i++) {
+                    if (count($images) >= 3) {
+                        break; // enforce limit of 3
+                    }
+                    if ($_FILES['images']['error'][$i] === UPLOAD_ERR_OK) {
+                        $tmp_name = $_FILES['images']['tmp_name'][$i];
+                        $orig_name = basename($_FILES['images']['name'][$i]);
+                        $ext = strtolower(pathinfo($orig_name, PATHINFO_EXTENSION));
+                        
+                        // Restrict file extensions to image types
+                        if (in_array($ext, ['png', 'jpg', 'jpeg', 'gif', 'webp'])) {
+                            $safe_orig_name = preg_replace("/[^a-zA-Z0-9_\.-]/", "_", pathinfo($orig_name, PATHINFO_FILENAME));
+                            $new_filename = uniqid('ad_', true) . '_' . $safe_orig_name . '.' . $ext;
+                            $dest = $upload_dir . $new_filename;
+
+                            if (move_uploaded_file($tmp_name, $dest)) {
+                                $images[] = 'uploads/broadcast/' . $new_filename;
+                            }
+                        }
+                    }
+                }
+            }
+
+            $images_json = json_encode($images);
+
+            try {
+                if ($status === 1) {
+                    // Turn off all other ads first
+                    $pdo->query("UPDATE `broadcast_ads` SET `status` = 0");
+                }
+                
+                if ($id > 0) {
+                    // Update
+                    $stmt = $pdo->prepare("UPDATE `broadcast_ads` SET `title` = ?, `description` = ?, `images` = ?, `status` = ? WHERE `id` = ?");
+                    $stmt->execute([$title, $description, $images_json, $status, $id]);
+                    echo json_encode(['status' => 'success', 'message' => 'Broadcast ad updated successfully.']);
+                    exit;
+                } else {
+                    // Insert
+                    $stmt = $pdo->prepare("INSERT INTO `broadcast_ads` (`title`, `description`, `images`, `status`) VALUES (?, ?, ?, ?)");
+                    $stmt->execute([$title, $description, $images_json, $status]);
+                    echo json_encode(['status' => 'success', 'message' => 'Broadcast ad created successfully.']);
+                    exit;
+                }
+            } catch (PDOException $e) {
+                echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
+                exit;
             }
         }
         break;

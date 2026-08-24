@@ -4,8 +4,8 @@
            FOOTER STYLING
            ========================================================================== */
         .site-footer {
-            background-color: var(--dark);
-            color: rgba(255, 255, 255, 0.7);
+            background: linear-gradient(135deg, var(--red) 0%, #581010 100%);
+            color: rgba(255, 255, 255, 0.85);
             padding: 5rem 0 2rem 0;
             border-top: 5px solid var(--gold);
             font-size: 0.92rem;
@@ -68,7 +68,7 @@
 
         .footer-desc {
             line-height: 1.7;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.85);
         }
 
         .footer-social-title {
@@ -134,7 +134,7 @@
             align-items: center;
             gap: 0.5rem;
             transition: var(--transition);
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.85);
         }
 
         .footer-link-item:hover {
@@ -167,7 +167,12 @@
 
         .footer-contact-text {
             line-height: 1.5;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .footer-contact-text a {
+            color: rgba(255, 255, 255, 0.85);
+            transition: all 0.3s ease;
         }
 
         .footer-contact-text a:hover {
@@ -176,7 +181,7 @@
 
         /* Footer Bottom */
         .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
             padding-top: 2rem;
             display: flex;
             justify-content: space-between;
@@ -186,18 +191,53 @@
         }
 
         .footer-copy {
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.75);
             font-size: 0.85rem;
         }
 
         .footer-credit {
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.75);
             font-size: 0.85rem;
         }
 
         .footer-credit a {
             color: var(--gold);
-            font-weight: 500;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-credit a:hover {
+            text-decoration: underline;
+            color: var(--white);
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float-btn {
+            position: fixed;
+            bottom: 85px;
+            right: 30px;
+            width: 45px;
+            height: 45px;
+            background-color: #25D366;
+            color: var(--white);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            z-index: 999;
+            border: 2px solid transparent;
+            font-size: 1.5rem;
+        }
+
+        .whatsapp-float-btn:hover {
+            background-color: #20ba5a;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+            color: var(--white);
         }
 
         /* Scroll To Top Button */
@@ -294,6 +334,7 @@
                         <li><a href="registration_procedure.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Registration</a></li>
                         <li><a href="feedback.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Feedback</a></li>
                          <li><a href="documents.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Documents</a></li>
+                          <!-- <li><a href="join-us.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Join Us</a></li> -->
                     </ul>
                 </div>
 
@@ -305,7 +346,7 @@
                         <li><a href="partners.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Partners & Sponsors</a></li>
                         <li><a href="gallery.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Media Gallery</a></li>
                         <li><a href="blogs.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Blog Posts</a></li>
-                        <li><a href="documents.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Association Documents</a></li>
+                        <li><a href="documents.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Documents</a></li>
                         <li><a href="keymessages.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Key Messages</a></li>
                         <li><a href="contact.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Contact Us</a></li>
                          <li><a href="disclaimer.php" class="footer-link-item"><i class="fa-solid fa-angle-right"></i> Disclaimer</a></li>
@@ -351,12 +392,20 @@
                 <span class="footer-copy">
                     &copy; 2026 Bengali Cultural Association. All Rights Reserved.
                 </span>
+                <span class="footer-credit" style="text-align: center;">
+                    Design and Devlop by <a href="https://evedaonlineservices.com/" target="_blank">Eveda Online Services</a>
+                </span>
                 <span class="footer-credit">
                     Designed with <i class="fa-solid fa-heart" style="color: var(--vermilion);"></i> for Bengali Heritage.
                 </span>
             </div>
         </div>
     </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/919811639155" target="_blank" class="whatsapp-float-btn" aria-label="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
 
     <!-- Back to Top Arrow Button -->
     <div class="scroll-top-btn" id="scroll-top" aria-label="Scroll to top">

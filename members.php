@@ -68,14 +68,97 @@ try {
         z-index: 2;
     }
 
+    /* Structured Introduction Cards */
+    .memb-intro-card {
+        background-color: var(--white);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius-lg);
+        padding: 3.5rem;
+        box-shadow: var(--shadow-sm);
+        max-width: 950px;
+        margin: 0 auto 3rem auto;
+        transition: all 0.3s ease;
+    }
+
+    .memb-sec-alt .memb-intro-card {
+        background-color: var(--white);
+    }
+
+    .memb-intro-card:hover {
+        background-color: var(--red);
+        border-color: var(--gold);
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-4px);
+    }
+
+    .memb-intro-card h2 {
+        font-family: var(--font-headings);
+        color: var(--red);
+        font-size: 2.2rem;
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid var(--border-color);
+        padding-bottom: 0.8rem;
+        transition: color 0.3s ease, border-color 0.3s ease;
+        text-align: center;
+    }
+
+    .memb-intro-card:hover h2 {
+        color: var(--gold);
+        border-bottom-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .memb-intro-card p {
+        font-size: 1.05rem;
+        line-height: 1.8;
+        color: var(--dark);
+        margin: 0;
+        text-align: justify;
+        transition: color 0.3s ease;
+    }
+
+    .memb-intro-card:hover p {
+        color: rgba(255, 255, 255, 0.95);
+    }
+
+    .alpona-divider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .alpona-divider::before,
+    .alpona-divider::after {
+        content: '';
+        height: 1px;
+        width: 80px;
+        background-color: var(--border-color);
+        transition: background-color 0.3s ease;
+    }
+
+    .memb-intro-card:hover .alpona-divider::before,
+    .memb-intro-card:hover .alpona-divider::after {
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .alpona-divider svg {
+        width: 24px;
+        height: 24px;
+        fill: var(--gold);
+        margin: 0 1.2rem;
+    }
+
     /* Document Cards Style */
     .docs-grid {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         gap: 2rem;
-        margin-top: 2.5rem;
         width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
     .doc-card {
@@ -85,87 +168,91 @@ try {
         border-radius: var(--border-radius-lg);
         display: flex;
         align-items: center;
-        gap: 1.2rem;
+        justify-content: space-between;
         box-shadow: var(--shadow-sm);
-        transition: var(--transition-slow);
+        transition: all 0.3s ease;
         flex: 0 1 calc(33.333% - 1.34rem);
         min-width: 290px;
         max-width: 380px;
         box-sizing: border-box;
     }
 
+    .memb-sec-alt .doc-card {
+        background-color: var(--white);
+    }
+
     .doc-card:hover {
-        transform: translateY(-5px);
+        transform: translateY(-4px);
         box-shadow: var(--shadow-lg);
-        border-color: var(--red);
+        border-color: var(--gold);
+        background-color: var(--red);
     }
 
     .doc-icon-box {
-        width: 54px;
-        height: 54px;
-        border-radius: 50%;
-        background-color: rgba(212, 63, 58, 0.06);
-        color: var(--red);
+        width: 50px;
+        height: 50px;
+        background-color: rgba(139, 30, 30, 0.06);
+        border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
+        color: var(--red);
         font-size: 1.5rem;
-        transition: var(--transition);
-        flex-shrink: 0;
+        transition: all 0.3s ease;
     }
 
     .doc-card:hover .doc-icon-box {
-        background-color: var(--red);
-        color: var(--white);
+        background-color: var(--white);
+        color: var(--red);
     }
 
     .doc-info {
-        flex-grow: 1;
-        overflow: hidden;
+        flex: 1;
+        margin-left: 1.2rem;
+        margin-right: 1rem;
+        min-width: 0;
     }
 
     .doc-title {
-        font-size: 1.02rem;
-        font-weight: 700;
+        font-family: var(--font-headings);
+        font-size: 1.1rem;
         color: var(--dark);
         margin-bottom: 0.25rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        transition: color 0.3s ease;
+    }
+
+    .doc-card:hover .doc-title {
+        color: var(--white);
     }
 
     .doc-meta {
         font-size: 0.8rem;
         color: var(--gray);
         font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
+        transition: color 0.3s ease;
+    }
+
+    .doc-card:hover .doc-meta {
+        color: rgba(255, 255, 255, 0.85);
     }
 
     .doc-link {
-        font-size: 1.2rem;
-        color: var(--red);
-        transition: var(--transition);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        background-color: var(--secondary-bg);
-        flex-shrink: 0;
+        color: var(--gray);
+        font-size: 1.25rem;
+        transition: all 0.3s ease;
     }
 
-    .doc-link:hover {
-        background-color: var(--red);
-        color: var(--white);
-        transform: scale(1.1);
+    .doc-card:hover .doc-link {
+        color: var(--gold);
     }
 
     /* Section Styling */
     .memb-sec {
         padding: 6.5rem 0;
+        background-color: var(--cream);
     }
     
     .memb-sec-alt {
@@ -174,71 +261,74 @@ try {
         border-bottom: 1px solid var(--border-color);
     }
 
-    .section-header {
-        text-align: center;
-        margin-bottom: 4rem;
-    }
-
-    .section-header h2 {
-        font-size: 2.5rem;
-        font-family: var(--font-headings);
-        color: var(--dark);
-        margin-bottom: 0.8rem;
-    }
-
-    .section-subtitle {
-        color: var(--gray);
-        font-size: 1.05rem;
-        max-width: 600px;
-        margin: 0 auto;
-        line-height: 1.6;
-    }
-
-    .alpona-divider {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 1.2rem;
-    }
-
-    .alpona-divider::before,
-    .alpona-divider::after {
-        content: '';
-        height: 1px;
-        width: 60px;
-        background-color: var(--border-color);
-    }
-
-    .alpona-divider svg {
-        width: 24px;
-        height: 24px;
-        fill: var(--gold);
-        margin: 0 1rem;
-    }
-
     /* Bottom CTA Panel */
     .memb-cta-sec {
-        background-color: var(--secondary-bg);
-        padding: 6rem 0;
+        background-color: var(--cream);
+        padding: 6.5rem 0;
         text-align: center;
         border-top: 1px solid var(--border-color);
     }
 
     .memb-cta-card {
-        max-width: 750px;
+        background-color: var(--white);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius-lg);
+        padding: 3.5rem;
+        box-shadow: var(--shadow-sm);
+        max-width: 800px;
         margin: 0 auto;
+        transition: all 0.3s ease;
+    }
+
+    .memb-cta-card:hover {
+        background-color: var(--red);
+        border-color: var(--gold);
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-4px);
     }
 
     .memb-cta-card h2 {
         font-size: 2.2rem;
         color: var(--red);
+        margin-top: 0;
         margin-bottom: 1rem;
+        transition: color 0.3s ease;
+    }
+
+    .memb-cta-card:hover h2 {
+        color: var(--gold);
     }
 
     .memb-cta-card p {
         font-size: 1.05rem;
         margin-bottom: 2rem;
-        line-height: 1.6;
+        line-height: 1.8;
+        color: var(--dark);
+        transition: color 0.3s ease;
+    }
+
+    .memb-cta-card:hover p {
+        color: rgba(255, 255, 255, 0.95);
+    }
+
+    .memb-cta-card .btn-primary {
+        background-color: var(--red);
+        color: var(--white);
+        border-color: var(--red);
+        transition: all 0.3s ease;
+    }
+
+    .memb-cta-card:hover .btn-primary {
+        background-color: var(--white);
+        color: var(--red) !important;
+        border-color: var(--white);
+    }
+
+    .memb-cta-card:hover .btn-primary:hover {
+        background-color: var(--gold);
+        color: var(--white) !important;
+        border-color: var(--gold);
+        transform: translateY(-2px);
     }
 
     /* ==========================================================================
@@ -251,6 +341,15 @@ try {
         .doc-card {
             flex: 0 1 calc(50% - 0.75rem);
             max-width: 380px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .memb-intro-card, .memb-cta-card {
+            padding: 2.2rem 1.8rem;
+        }
+        .memb-intro-card h2, .memb-cta-card h2 {
+            font-size: 1.8rem;
         }
     }
 
@@ -273,9 +372,9 @@ try {
 <!-- Section 1: Our Members -->
 <section class="memb-sec" id="our-members">
     <div class="container">
-        <div class="section-header">
+        <div class="memb-intro-card">
             <h2>Our Members</h2>
-            <p class="section-subtitle">Access the verified lists of registered general and life members of our association.</p>
+            <p>Access the verified lists of registered general and life members of our association.</p>
             <div class="alpona-divider">
                 <svg viewBox="0 0 24 24"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 3c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5zm0 2c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
             </div>
@@ -305,9 +404,9 @@ try {
 <!-- Section 2: Member Profile (Table) -->
 <section class="memb-sec memb-sec-alt" id="member-profile">
     <div class="container">
-        <div class="section-header">
+        <div class="memb-intro-card">
             <h2>Member Profile (Table)</h2>
-            <p class="section-subtitle">Download and review the profiles, roles, tenures, and general compliance registers.</p>
+            <p>Download and review the profiles, roles, tenures, and general compliance registers.</p>
             <div class="alpona-divider">
                 <svg viewBox="0 0 24 24"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 3c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5zm0 2c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
             </div>

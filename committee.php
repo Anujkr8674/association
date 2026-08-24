@@ -121,7 +121,7 @@ try {
         border-radius: var(--border-radius-lg);
         overflow: hidden;
         box-shadow: var(--shadow-sm);
-        transition: var(--transition-slow);
+        transition: all 0.3s ease;
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -132,6 +132,31 @@ try {
         transform: translateY(-8px);
         box-shadow: var(--shadow-lg);
         border-color: var(--gold);
+        background-color: var(--red);
+    }
+
+    .comm-card:hover .comm-name {
+        color: var(--white);
+    }
+
+    .comm-card:hover .comm-bio {
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .comm-card:hover .comm-role {
+        color: var(--gold);
+    }
+
+    .comm-card:hover .comm-contact {
+        border-top-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .comm-card:hover .comm-email-link {
+        color: var(--white) !important;
+    }
+
+    .comm-card:hover .comm-email-link i {
+        color: var(--gold) !important;
     }
 
     .comm-img-box {
@@ -349,82 +374,177 @@ try {
         border-radius: var(--border-radius-lg);
         display: flex;
         align-items: center;
-        gap: 1.2rem;
+        justify-content: space-between;
         box-shadow: var(--shadow-sm);
-        transition: var(--transition-slow);
+        transition: all 0.3s ease;
         flex: 0 1 calc(33.333% - 1.34rem);
         min-width: 290px;
         max-width: 380px;
         box-sizing: border-box;
     }
 
+    .comm-sec-alt .doc-card {
+        background-color: var(--white);
+    }
+
     .doc-card:hover {
-        transform: translateY(-5px);
+        transform: translateY(-4px);
         box-shadow: var(--shadow-lg);
-        border-color: var(--red);
+        border-color: var(--gold);
+        background-color: var(--red);
     }
 
     .doc-icon-box {
-        width: 54px;
-        height: 54px;
-        border-radius: 50%;
-        background-color: rgba(212, 63, 58, 0.06);
-        color: var(--red);
+        width: 50px;
+        height: 50px;
+        background-color: rgba(139, 30, 30, 0.06);
+        border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
+        color: var(--red);
         font-size: 1.5rem;
-        transition: var(--transition);
+        transition: all 0.3s ease;
         flex-shrink: 0;
     }
 
     .doc-card:hover .doc-icon-box {
-        background-color: var(--red);
-        color: var(--white);
+        background-color: var(--white);
+        color: var(--red);
     }
 
     .doc-info {
-        flex-grow: 1;
-        overflow: hidden;
+        flex: 1;
+        margin-left: 1.2rem;
+        margin-right: 1rem;
+        min-width: 0;
     }
 
     .doc-title {
-        font-size: 1.02rem;
-        font-weight: 700;
+        font-family: var(--font-headings);
+        font-size: 1.1rem;
         color: var(--dark);
         margin-bottom: 0.25rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        transition: color 0.3s ease;
+    }
+
+    .doc-card:hover .doc-title {
+        color: var(--white);
     }
 
     .doc-meta {
         font-size: 0.8rem;
         color: var(--gray);
         font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
+        transition: color 0.3s ease;
+    }
+
+    .doc-card:hover .doc-meta {
+        color: rgba(255, 255, 255, 0.85);
     }
 
     .doc-link {
-        font-size: 1.2rem;
+        color: var(--gray);
+        font-size: 1.25rem;
+        transition: all 0.3s ease;
+    }
+
+    .doc-card:hover .doc-link {
+        color: var(--gold);
+    }
+
+    /* Structured Introduction Cards */
+    .comm-intro-card {
+        background-color: var(--white);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius-lg);
+        padding: 3.5rem;
+        box-shadow: var(--shadow-sm);
+        max-width: 950px;
+        margin: 0 auto 3rem auto;
+        transition: all 0.3s ease;
+    }
+
+    .comm-sec-alt .comm-intro-card {
+        background-color: var(--white);
+    }
+
+    .comm-intro-card:hover {
+        background-color: var(--red);
+        border-color: var(--gold);
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-4px);
+    }
+
+    .comm-intro-card h2 {
+        font-family: var(--font-headings);
         color: var(--red);
-        transition: var(--transition);
+        font-size: 2.2rem;
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid var(--border-color);
+        padding-bottom: 0.8rem;
+        transition: color 0.3s ease, border-color 0.3s ease;
+        text-align: center;
+    }
+
+    .comm-intro-card:hover h2 {
+        color: var(--gold);
+        border-bottom-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .comm-intro-card p {
+        font-size: 1.05rem;
+        line-height: 1.8;
+        color: var(--dark);
+        margin: 0;
+        text-align: justify;
+        transition: color 0.3s ease;
+    }
+
+    .comm-intro-card:hover p {
+        color: rgba(255, 255, 255, 0.95);
+    }
+
+    .alpona-divider {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        background-color: var(--secondary-bg);
-        flex-shrink: 0;
+        margin-top: 1.5rem;
+        transition: all 0.3s ease;
     }
 
-    .doc-link:hover {
-        background-color: var(--red);
-        color: var(--white);
-        transform: scale(1.1);
+    .alpona-divider::before,
+    .alpona-divider::after {
+        content: '';
+        height: 1px;
+        width: 80px;
+        background-color: var(--border-color);
+        transition: background-color 0.3s ease;
+    }
+
+    .comm-intro-card:hover .alpona-divider::before,
+    .comm-intro-card:hover .alpona-divider::after {
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .alpona-divider svg {
+        width: 24px;
+        height: 24px;
+        fill: var(--gold);
+        margin: 0 1.2rem;
+    }
+
+    @media (max-width: 768px) {
+        .comm-intro-card {
+            padding: 2.2rem 1.8rem;
+        }
+        .comm-intro-card h2 {
+            font-size: 1.8rem;
+        }
     }
 
     /* ==========================================================================
@@ -599,9 +719,9 @@ try {
 <!-- Section 3: Previous Committees -->
 <section class="comm-sec" id="previous">
     <div class="container">
-        <div class="section-header">
+        <div class="comm-intro-card">
             <h2>Previous Committees</h2>
-            <p class="section-subtitle">We honor the former executive members and leadership groups who built this association.</p>
+            <p>We honor the former executive members and leadership groups who built this association.</p>
             <div class="alpona-divider">
                 <svg viewBox="0 0 24 24"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 3c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5zm0 2c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
             </div>
@@ -609,7 +729,7 @@ try {
 
         <div class="docs-grid">
             <?php if (empty($previous_committee_docs)): ?>
-                <div style="grid-column: span 3; text-align: center; color: var(--gray); font-style: italic; padding: 2rem;">No previous committee documents uploaded yet.</div>
+                <div style="text-align: center; color: var(--gray); font-style: italic; padding: 2rem; width: 100%;">No previous committee documents uploaded yet.</div>
             <?php else: ?>
                 <?php foreach ($previous_committee_docs as $doc): ?>
                     <div class="doc-card">
@@ -631,9 +751,9 @@ try {
 <!-- Section 4: Sarbojonin Puja Samiti -->
 <section class="comm-sec comm-sec-alt" id="puja-samiti">
     <div class="container">
-        <div class="section-header">
+        <div class="comm-intro-card">
             <h2>Sarbojonin Puja Samiti</h2>
-            <p class="section-subtitle">Former and current organizing committee structures for our grand annual Durga Puja celebrations.</p>
+            <p>Former and current organizing committee structures for our grand annual Durga Puja celebrations.</p>
             <div class="alpona-divider">
                 <svg viewBox="0 0 24 24"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 3c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5zm0 2c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
             </div>
@@ -641,7 +761,7 @@ try {
 
         <div class="docs-grid">
             <?php if (empty($puja_samiti_docs)): ?>
-                <div style="grid-column: span 3; text-align: center; color: var(--gray); font-style: italic; padding: 2rem;">No Puja Samiti documents uploaded yet.</div>
+                <div style="text-align: center; color: var(--gray); font-style: italic; padding: 2rem; width: 100%;">No Puja Samiti documents uploaded yet.</div>
             <?php else: ?>
                 <?php foreach ($puja_samiti_docs as $doc): ?>
                     <div class="doc-card">
@@ -663,9 +783,9 @@ try {
 <!-- Section 5: Processes -->
 <section class="comm-sec" id="processes">
     <div class="container">
-        <div class="section-header">
+        <div class="comm-intro-card">
             <h2>Processes & Compliance</h2>
-            <p class="section-subtitle">For the convenience please click the attached Tab for viewing the detailed “Work Flow Chart for BCA Activities”. Few of the Sub Processes have been included in the Website under various Heads which include Membership Enrolment, Registration – Authorization. Some of the Work Instructions and Formats are also built in the Website at appropriate locations, which include the “Feedback Form”, Membership Enrolment Form, Registration – Authorization Form etc.</p>
+            <p>For the convenience please click the attached Tab for viewing the detailed “Work Flow Chart for BCA Activities”. Few of the Sub Processes have been included in the Website under various Heads which include Membership Enrolment, Registration – Authorization. Some of the Work Instructions and Formats are also built in the Website at appropriate locations, which include the “Feedback Form”, Membership Enrolment Form, Registration – Authorization Form etc.</p>
             <div class="alpona-divider">
                 <svg viewBox="0 0 24 24"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 3c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5zm0 2c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
             </div>
@@ -673,7 +793,7 @@ try {
 
         <div class="docs-grid">
             <?php if (empty($processes_docs)): ?>
-                <div style="grid-column: span 3; text-align: center; color: var(--gray); font-style: italic; padding: 2rem;">No process guidelines uploaded yet.</div>
+                <div style="text-align: center; color: var(--gray); font-style: italic; padding: 2rem; width: 100%;">No process guidelines uploaded yet.</div>
             <?php else: ?>
                 <?php foreach ($processes_docs as $doc): ?>
                     <div class="doc-card">
