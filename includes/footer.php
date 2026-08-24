@@ -44,9 +44,15 @@
         }
 
         .footer-logo-img {
-            height: 60px;
+            height: 85px;
             width: auto;
             object-fit: contain;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .footer-logo-img:hover {
+            transform: scale(1.08) translateY(-2px);
+            filter: drop-shadow(0 5px 12px rgba(201, 154, 46, 0.25));
         }
 
         .footer-logo-title {
@@ -97,11 +103,11 @@
         }
 
         .social-link:hover {
-            background-color: var(--vermilion);
+            background-color: var(--gold);
             color: var(--white);
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(200, 59, 45, 0.3);
-            border-color: var(--vermilion);
+            border-color: var(--gold);
         }
 
         .footer-title {
