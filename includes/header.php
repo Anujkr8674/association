@@ -10,6 +10,10 @@ $is_home = ($current_page == 'index.php' || $current_page == '' || $current_page
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bengali Cultural Association</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/logo_new.png">
+    <link rel="apple-touch-icon" href="images/logo_new.png">
+    
     <!-- Google Fonts: Playfair Display (Serif) & Inter (Sans-serif) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
